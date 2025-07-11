@@ -1,10 +1,10 @@
-import { Link, Tabs, useRouter } from 'expo-router';
+import { Tabs, useRouter } from 'expo-router';
 import { useEffect } from 'react';
 import { View, ActivityIndicator, StyleSheet } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-import { HeaderButton } from '../../components/HeaderButton';
 import { TabBarIcon } from '../../components/TabBarIcon';
+import { CustomHeader } from '../../components/CustomHeader';
 import { useAuthStore } from '../../store/authStore';
 
 export default function TabLayout() {
@@ -22,7 +22,7 @@ export default function TabLayout() {
   if (!isInitialized) {
     return (
       <View style={styles.container}>
-        <ActivityIndicator size="large" color="#007AFF" />
+        <ActivityIndicator size="large" color="#6cf16b" />
       </View>
     );
   }
@@ -31,7 +31,7 @@ export default function TabLayout() {
   if (!isAuthenticated) {
     return (
       <View style={styles.container}>
-        <ActivityIndicator size="large" color="#007AFF" />
+        <ActivityIndicator size="large" color="#6cf16b" />
       </View>
     );
   }
@@ -39,18 +39,21 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: '#16dc16',
+        tabBarActiveTintColor: '#6cf16b',
+        headerStyle: {
+          backgroundColor: '#6cf16b',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
       }}>
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
+          title: 'Identify',
           tabBarIcon: ({ color }) => <Ionicons name="search" size={24} color={color} />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <HeaderButton />
-            </Link>
-          ),
+          headerRight: () => <CustomHeader />,
         }}
       />
       <Tabs.Screen
@@ -58,6 +61,7 @@ export default function TabLayout() {
         options={{
           title: 'Community',
           tabBarIcon: ({ color }) => <Ionicons name="people" size={24} color={color} />,
+          headerRight: () => <CustomHeader />,
         }}
       />
       <Tabs.Screen
@@ -65,6 +69,7 @@ export default function TabLayout() {
         options={{
           title: 'Profile',
           tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
+          headerRight: () => <CustomHeader />,
         }}
       />
     </Tabs>
