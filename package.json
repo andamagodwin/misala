@@ -34,7 +34,8 @@
     "react-native-screens": "~4.11.1",
     "react-native-url-polyfill": "^2.0.0",
     "react-native-web": "^0.20.0",
-    "zustand": "^4.5.1"
+    "zustand": "^4.5.1",
+    "expo-image-picker": "~16.1.4"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
