@@ -41,10 +41,22 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     set({ isLoading: true });
     
     try {
+      // First verify environment variables are available
+      const endpoint = process.env.EXPO_PUBLIC_APPWRITE_ENDPOINT;
+      const projectId = process.env.EXPO_PUBLIC_APPWRITE_PROJECT_ID;
+      console.log('Environment variables check:', { 
+        hasEndpoint: !!endpoint, 
+        hasProjectId: !!projectId,
+        endpoint,
+        projectId
+      });
+
+      console.log('Attempting to get current user...');
       const user = await account.get();
       console.log('Current user:', user);
       
       if (user) {
+        console.log('User authenticated:', user.$id);
         set({ 
           user, 
           isAuthenticated: true, 
@@ -52,6 +64,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
           isInitialized: true 
         });
       } else {
+        console.log('No user found, redirecting to auth');
         set({ 
           user: null, 
           isAuthenticated: false, 
@@ -60,7 +73,14 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         });
       }
     } catch (error) {
-      console.log('No active session:', error);
+      console.error('Auth initialization error:', error);
+      if (error instanceof Error) {
+        console.error('Error details:', {
+          message: error.message,
+          stack: error.stack
+        });
+      }
+      // Don't throw the error, just set the state
       set({ 
         user: null, 
         isAuthenticated: false, 
