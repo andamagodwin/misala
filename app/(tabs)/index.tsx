@@ -1,11 +1,16 @@
 import { Stack } from 'expo-router';
-import { View, Text, TouchableOpacity, Image, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, Image, Alert, ActivityIndicator } from 'react-native';
 import { useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import { MaterialIcons } from '@expo/vector-icons';
 
 export default function Home() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [predictionResult, setPredictionResult] = useState<{
+    class: string;
+    confidence: number;
+  } | null>(null);
 
   const requestPermissions = async () => {
     const { status: cameraStatus } = await ImagePicker.requestCameraPermissionsAsync();
@@ -53,19 +58,61 @@ export default function Home() {
     }
   };
 
-  const makePrediction = () => {
+  const makePrediction = async () => {
     if (!selectedImage) {
       Alert.alert('No Image', 'Please select an image first');
       return;
     }
-    console.log('Making prediction on image:', selectedImage);
     
-    // TODO: Implement your prediction logic here
-    Alert.alert('Prediction', 'Prediction functionality will be implemented here!');
+    setIsLoading(true);
+    setPredictionResult(null);
+    
+    try {
+      console.log('Making prediction on image:', selectedImage);
+      
+      // Create FormData
+      const formData = new FormData();
+      
+      // Add the image file to form data
+      formData.append('file', {
+        uri: selectedImage,
+        type: 'image/jpeg',
+        name: 'image.jpg',
+      } as any);
+      
+      // Make the API request
+      const response = await fetch('https://image-prediction-uzi7.onrender.com/predict', {
+        method: 'POST',
+        headers: {
+          'accept': 'application/json',
+          'Content-Type': 'multipart/form-data',
+        },
+        body: formData,
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const result = await response.json();
+      console.log('Prediction result:', result);
+      
+      setPredictionResult(result);
+      
+    } catch (error) {
+      console.error('Error making prediction:', error);
+      Alert.alert(
+        'Prediction Error',
+        'Failed to make prediction. Please try again.'
+      );
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const removeImage = () => {
     setSelectedImage(null);
+    setPredictionResult(null);
   };
 
   return (
@@ -117,17 +164,60 @@ export default function Home() {
             <View className="flex-row w-full justify-evenly">
               <TouchableOpacity
                 onPress={makePrediction}
-                className="bg-primary px-6 py-3 rounded-lg shadow-sm"
+                disabled={isLoading}
+                className={`bg-primary px-6 py-3 rounded-lg shadow-sm flex-row items-center ${isLoading ? 'opacity-50' : ''}`}
               >
-                <Text className="text-white font-semibold">Identify</Text>
+                {isLoading ? (
+                  <ActivityIndicator size="small" color="white" />
+                ) : (
+                  <Text className="text-white font-semibold">Identify</Text>
+                )}
               </TouchableOpacity>
               
               <TouchableOpacity
                 onPress={removeImage}
-                className="bg-red-500 px-6 py-3 rounded-lg shadow-sm"
+                disabled={isLoading}
+                className={`bg-red-500 px-6 py-3 rounded-lg shadow-sm ${isLoading ? 'opacity-50' : ''}`}
               >
                 <Text className="text-white font-semibold">Remove</Text>
               </TouchableOpacity>
+            </View>
+          </View>
+        )}
+
+        {/* Prediction Results Display */}
+        {predictionResult && (
+          <View className="mb-8 items-center">
+            <View className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 w-full max-w-sm">
+              <Text className="text-xl font-bold text-gray-800 mb-4 text-center">
+                Prediction Result
+              </Text>
+              
+              <View className="space-y-3">
+                <View className="flex-row justify-between items-center">
+                  <Text className="text-gray-600 font-medium">Plant:</Text>
+                  <Text className="text-lg font-bold text-primary">
+                    {predictionResult.class}
+                  </Text>
+                </View>
+                
+                <View className="flex-row justify-between items-center">
+                  <Text className="text-gray-600 font-medium">Confidence:</Text>
+                  <Text className="text-lg font-bold text-gray-800">
+                    {predictionResult.confidence}%
+                  </Text>
+                </View>
+              </View>
+              
+              <View className="mt-4 bg-gray-100 rounded-lg p-3">
+                <Text className="text-sm text-gray-600 text-center">
+                  {predictionResult.confidence >= 80 
+                    ? "High confidence prediction" 
+                    : predictionResult.confidence >= 60 
+                    ? "Moderate confidence prediction" 
+                    : "Low confidence prediction"}
+                </Text>
+              </View>
             </View>
           </View>
         )}
@@ -146,8 +236,10 @@ export default function Home() {
         {/* Instructions */}
         <View className="items-center">
           <Text className="text-base text-gray-600 text-center leading-6">
-            {selectedImage 
-              ? "Great! Now you can make a prediction on your selected image." 
+            {predictionResult 
+              ? `The plant has been identified as ${predictionResult.class} with ${predictionResult.confidence}% confidence.`
+              : selectedImage 
+              ? "Great! Now you can identify your selected image." 
               : "Choose an image from your gallery or take a photo to get started."
             }
           </Text>
