@@ -98,7 +98,7 @@ export default function ProfileScreen() {
     <ScrollView className="flex-1 bg-gray-100">
       <View className="items-center py-8 bg-white border-b border-gray-200">
         <View className="mb-4">
-          <View className="w-20 h-20 rounded-full bg-blue-500 justify-center items-center">
+          <View className="w-20 h-20 rounded-full bg-primary justify-center items-center">
             <Text className="text-white text-2xl font-bold">
               {userDetails?.name?.charAt(0)?.toUpperCase() || 'U'}
             </Text>
@@ -175,14 +175,14 @@ export default function ProfileScreen() {
         </Text>
         
         <TouchableOpacity 
-          className="bg-blue-500 p-4 rounded-lg items-center mb-4"
+          className="bg-primary p-4 rounded-lg items-center mb-4"
           onPress={() => router.push('/edit-profile')}
         >
           <Text className="text-white text-base font-semibold">Edit Profile</Text>
         </TouchableOpacity>
         
         <TouchableOpacity 
-          className="bg-green-500 p-4 rounded-lg items-center mb-4"
+          className="bg-primary p-4 rounded-lg items-center mb-4"
           onPress={fetchUserDetails}
         >
           <Text className="text-white text-base font-semibold">Refresh Profile</Text>

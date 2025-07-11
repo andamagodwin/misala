@@ -100,7 +100,7 @@ export default function EditProfileScreen() {
           title: 'Edit Profile',
           headerRight: () => (
             <TouchableOpacity onPress={handleSave} disabled={loading}>
-              <Text className={`text-blue-500 font-semibold ${loading ? 'opacity-50' : ''}`}>
+              <Text className={`text-primary font-semibold ${loading ? 'opacity-50' : ''}`}>
                 {loading ? 'Saving...' : 'Save'}
               </Text>
             </TouchableOpacity>
@@ -153,7 +153,7 @@ export default function EditProfileScreen() {
           <View>
             <Text className="text-lg font-bold text-gray-800 mb-3">Security</Text>
             <TouchableOpacity 
-              className="bg-orange-500 p-4 rounded-lg items-center"
+              className="bg-primary p-4 rounded-lg items-center"
               onPress={handlePasswordChange}
             >
               <Text className="text-white font-semibold">Change Password</Text>

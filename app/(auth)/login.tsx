@@ -88,7 +88,7 @@ export default function LoginScreen() {
         />
 
         <TouchableOpacity 
-          className={`bg-blue-500 p-4 rounded-lg items-center ${loading ? 'opacity-50' : ''}`}
+          className={`bg-primary p-4 rounded-lg items-center ${loading ? 'opacity-50' : ''}`}
           onPress={handleLogin}
           disabled={loading}
         >
@@ -107,7 +107,7 @@ export default function LoginScreen() {
         </TouchableOpacity>
 
         <Link href="/(auth)/signup" className="items-center mt-4">
-          <Text className="text-blue-500 text-base">Don&apos;t have an account? Sign up</Text>
+          <Text className="text-primary text-base">Don&apos;t have an account? Sign up</Text>
         </Link>
       </View>
     </View>

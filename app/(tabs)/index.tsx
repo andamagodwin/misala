@@ -1,11 +1,10 @@
 import { Stack } from 'expo-router';
 import { View, Text, TouchableOpacity, Image, Alert } from 'react-native';
-import { useAuthStore } from '../../store/authStore';
 import { useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
+import { MaterialIcons } from '@expo/vector-icons';
 
 export default function Home() {
-  const { user } = useAuthStore();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const requestPermissions = async () => {
@@ -70,16 +69,16 @@ export default function Home() {
 
   return (
     <>
-      <Stack.Screen options={{ title: 'Home' }} />
-      <View className="flex-1 p-5 bg-gray-100">
-        <Text className="text-3xl font-bold text-gray-800 mb-8 text-center">Welcome to Misala!</Text>
+      <Stack.Screen options={{ title: 'Identify' }} />
+      <View className="flex-1 p-5 bg-white">
+        {/* <Text className="text-3xl font-bold text-gray-800 mb-8 text-center">Welcome to Misala!</Text>
         
         {user && (
           <View className="items-center mb-8 p-6 bg-white rounded-lg shadow-sm">
             <Text className="text-xl font-semibold text-gray-800 mb-2">Hello, {user.name}!</Text>
             <Text className="text-base text-gray-600">{user.email}</Text>
           </View>
-        )}
+        )} */}
 
         {/* Image Picker Section */}
         <View className="mb-8">
@@ -87,19 +86,21 @@ export default function Home() {
             Select an image for prediction
           </Text>
           
-          <View className="flex-row justify-center space-x-4 mb-6">
+          <View className="flex-row justify-evenly space-x-4 mb-6">
             <TouchableOpacity
               onPress={pickImageFromGallery}
-              className="bg-blue-500 px-6 py-3 rounded-lg shadow-sm"
+              className="bg-primary px-6 py-3 rounded-lg shadow-sm flex-row items-center"
             >
-              <Text className="text-white font-semibold">Gallery</Text>
+              <MaterialIcons name="photo-library" size={24} color="white" />
+              <Text className="text-white font-semibold ml-2">Gallery</Text>
             </TouchableOpacity>
             
             <TouchableOpacity
               onPress={takePhoto}
-              className="bg-green-500 px-6 py-3 rounded-lg shadow-sm"
+              className="bg-primary px-6 py-3 rounded-lg shadow-sm flex-row items-center"
             >
-              <Text className="text-white font-semibold">Camera</Text>
+              <MaterialIcons name="camera-alt" size={24} color="white" />
+              <Text className="text-white font-semibold ml-2">Camera</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -115,7 +116,7 @@ export default function Home() {
             <View className="flex-row space-x-4">
               <TouchableOpacity
                 onPress={makePrediction}
-                className="bg-purple-500 px-6 py-3 rounded-lg shadow-sm"
+                className="bg-primary px-6 py-3 rounded-lg shadow-sm"
               >
                 <Text className="text-white font-semibold">Make Prediction</Text>
               </TouchableOpacity>
@@ -127,6 +128,17 @@ export default function Home() {
                 <Text className="text-white font-semibold">Remove</Text>
               </TouchableOpacity>
             </View>
+          </View>
+        )}
+
+        {/* Default Image Display */}
+        {!selectedImage && (
+          <View className="mb-8 items-center">
+            <Image
+              source={require('../../assets/poppy-flower.png')}
+              className="w-64 h-64 rounded-lg mb-4"
+              resizeMode="cover"
+            />
           </View>
         )}
 
