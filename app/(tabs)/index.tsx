@@ -154,9 +154,9 @@ export default function Home() {
 
         {/* Image Picker Section */}
         <View className="mb-8">
-          <Text className="text-lg font-semibold text-gray-800 mb-4 text-center">
+          {/* <Text className="text-lg font-semibold text-gray-800 mb-4 text-center">
             Select an image for prediction
-          </Text>
+          </Text> */}
           
           <View className="flex-row justify-evenly space-x-4 mb-6">
             <TouchableOpacity
