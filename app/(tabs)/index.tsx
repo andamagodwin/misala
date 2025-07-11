@@ -58,6 +58,7 @@ export default function Home() {
       Alert.alert('No Image', 'Please select an image first');
       return;
     }
+    console.log('Making prediction on image:', selectedImage);
     
     // TODO: Implement your prediction logic here
     Alert.alert('Prediction', 'Prediction functionality will be implemented here!');
@@ -113,12 +114,12 @@ export default function Home() {
               className="w-64 h-64 rounded-lg mb-4"
               resizeMode="cover"
             />
-            <View className="flex-row space-x-4">
+            <View className="flex-row w-full justify-evenly">
               <TouchableOpacity
                 onPress={makePrediction}
                 className="bg-primary px-6 py-3 rounded-lg shadow-sm"
               >
-                <Text className="text-white font-semibold">Make Prediction</Text>
+                <Text className="text-white font-semibold">Identify</Text>
               </TouchableOpacity>
               
               <TouchableOpacity
