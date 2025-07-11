@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, Alert, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import { useState } from 'react';
 import { Link, router } from 'expo-router';
 import { account } from '../../lib/appwriteConfig';
@@ -63,13 +63,13 @@ export default function LoginScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Welcome Back</Text>
-      <Text style={styles.subtitle}>Sign in to your account</Text>
+    <View className="flex-1 justify-center p-5 bg-gray-100">
+      <Text className="text-3xl font-bold text-center mb-3 text-gray-800">Welcome Back</Text>
+      <Text className="text-base text-center mb-8 text-gray-600">Sign in to your account</Text>
 
-      <View style={styles.form}>
+      <View className="space-y-4">
         <TextInput
-          style={styles.input}
+          className="border border-gray-300 p-4 rounded-lg text-base bg-white"
           placeholder="Email"
           value={email}
           onChangeText={setEmail}
@@ -79,7 +79,7 @@ export default function LoginScreen() {
         />
 
         <TextInput
-          style={styles.input}
+          className="border border-gray-300 p-4 rounded-lg text-base bg-white"
           placeholder="Password"
           value={password}
           onChangeText={setPassword}
@@ -88,92 +88,28 @@ export default function LoginScreen() {
         />
 
         <TouchableOpacity 
-          style={[styles.button, loading && styles.buttonDisabled]} 
+          className={`bg-blue-500 p-4 rounded-lg items-center ${loading ? 'opacity-50' : ''}`}
           onPress={handleLogin}
           disabled={loading}
         >
           {loading ? (
             <ActivityIndicator color="#fff" />
           ) : (
-            <Text style={styles.buttonText}>Sign In</Text>
+            <Text className="text-white text-base font-semibold">Sign In</Text>
           )}
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.testButton} onPress={testConnection}>
-          <Text style={styles.testButtonText}>Test Connection</Text>
+        <TouchableOpacity 
+          className="bg-green-500 p-3 rounded-lg items-center mt-3"
+          onPress={testConnection}
+        >
+          <Text className="text-white text-sm font-semibold">Test Connection</Text>
         </TouchableOpacity>
 
-        <Link href="/(auth)/signup" style={styles.link}>
-          <Text style={styles.linkText}>Don&apos;t have an account? Sign up</Text>
+        <Link href="/(auth)/signup" className="items-center mt-4">
+          <Text className="text-blue-500 text-base">Don&apos;t have an account? Sign up</Text>
         </Link>
       </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 20,
-    backgroundColor: '#f5f5f5',
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 10,
-    color: '#333',
-  },
-  subtitle: {
-    fontSize: 16,
-    textAlign: 'center',
-    marginBottom: 30,
-    color: '#666',
-  },
-  form: {
-    gap: 16,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ddd',
-    padding: 16,
-    borderRadius: 8,
-    fontSize: 16,
-    backgroundColor: '#fff',
-  },
-  button: {
-    backgroundColor: '#007AFF',
-    padding: 16,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  buttonDisabled: {
-    backgroundColor: '#ccc',
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  testButton: {
-    backgroundColor: '#34C759',
-    padding: 12,
-    borderRadius: 8,
-    alignItems: 'center',
-    marginTop: 10,
-  },
-  testButtonText: {
-    color: '#fff',
-    fontSize: 14,
-    fontWeight: '600',
-  },
-  link: {
-    alignItems: 'center',
-    marginTop: 16,
-  },
-  linkText: {
-    color: '#007AFF',
-    fontSize: 16,
-  },
-});

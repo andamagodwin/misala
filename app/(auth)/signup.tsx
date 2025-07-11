@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, Alert, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import { useState } from 'react';
 import { Link, router } from 'expo-router';
 import { account } from '../../lib/appwriteConfig';
@@ -74,13 +74,13 @@ export default function SignupScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Create Account</Text>
-      <Text style={styles.subtitle}>Sign up to get started</Text>
+    <View className="flex-1 justify-center p-5 bg-gray-100">
+      <Text className="text-3xl font-bold text-center mb-3 text-gray-800">Create Account</Text>
+      <Text className="text-base text-center mb-8 text-gray-600">Sign up to get started</Text>
 
-      <View style={styles.form}>
+      <View className="space-y-4">
         <TextInput
-          style={styles.input}
+          className="border border-gray-300 p-4 rounded-lg text-base bg-white"
           placeholder="Full Name"
           value={name}
           onChangeText={setName}
@@ -88,7 +88,7 @@ export default function SignupScreen() {
         />
 
         <TextInput
-          style={styles.input}
+          className="border border-gray-300 p-4 rounded-lg text-base bg-white"
           placeholder="Email"
           value={email}
           onChangeText={setEmail}
@@ -98,7 +98,7 @@ export default function SignupScreen() {
         />
 
         <TextInput
-          style={styles.input}
+          className="border border-gray-300 p-4 rounded-lg text-base bg-white"
           placeholder="Password"
           value={password}
           onChangeText={setPassword}
@@ -107,7 +107,7 @@ export default function SignupScreen() {
         />
 
         <TextInput
-          style={styles.input}
+          className="border border-gray-300 p-4 rounded-lg text-base bg-white"
           placeholder="Confirm Password"
           value={confirmPassword}
           onChangeText={setConfirmPassword}
@@ -116,76 +116,21 @@ export default function SignupScreen() {
         />
 
         <TouchableOpacity 
-          style={[styles.button, loading && styles.buttonDisabled]} 
+          className={`bg-blue-500 p-4 rounded-lg items-center ${loading ? 'opacity-50' : ''}`}
           onPress={handleSignup}
           disabled={loading}
         >
           {loading ? (
             <ActivityIndicator color="#fff" />
           ) : (
-            <Text style={styles.buttonText}>Create Account</Text>
+            <Text className="text-white text-base font-semibold">Create Account</Text>
           )}
         </TouchableOpacity>
 
-        <Link href="/(auth)/login" style={styles.link}>
-          <Text style={styles.linkText}>Already have an account? Sign in</Text>
+        <Link href="/(auth)/login" className="items-center mt-4">
+          <Text className="text-blue-500 text-base">Already have an account? Sign in</Text>
         </Link>
       </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 20,
-    backgroundColor: '#f5f5f5',
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 10,
-    color: '#333',
-  },
-  subtitle: {
-    fontSize: 16,
-    textAlign: 'center',
-    marginBottom: 30,
-    color: '#666',
-  },
-  form: {
-    gap: 16,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ddd',
-    padding: 16,
-    borderRadius: 8,
-    fontSize: 16,
-    backgroundColor: '#fff',
-  },
-  button: {
-    backgroundColor: '#007AFF',
-    padding: 16,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  buttonDisabled: {
-    backgroundColor: '#ccc',
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  link: {
-    alignItems: 'center',
-    marginTop: 16,
-  },
-  linkText: {
-    color: '#007AFF',
-    fontSize: 16,
-  },
-});
