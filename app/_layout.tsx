@@ -5,6 +5,7 @@ import { Stack } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
 import { useAuthStore } from '../store/authStore';
+import { StatusBar } from 'expo-status-bar';
 
 export default function RootLayout() {
   const { initialize } = useAuthStore();
@@ -37,12 +38,16 @@ export default function RootLayout() {
   }
 
   return (
-    <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="index" />
-      <Stack.Screen name="(auth)" />
-      <Stack.Screen name="(tabs)" />
-      <Stack.Screen name="edit-profile" />
-      <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-    </Stack>
+    <>
+      <StatusBar backgroundColor="#6cf16b" style="auto" />
+
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="index" />
+        <Stack.Screen name="(auth)" />
+        <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="edit-profile" />
+        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+      </Stack>
+    </>
   );
 }

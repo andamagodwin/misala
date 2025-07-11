@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, Image, Alert, ActivityIndicator } from 'r
 import { useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import { MaterialIcons } from '@expo/vector-icons';
+import { useHistoryStore } from '../../store/historyStore';
 
 export default function Home() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -94,10 +95,33 @@ export default function Home() {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       
-      const result = await response.json();
+      const responseText = await response.text();
+      console.log('Raw response:', responseText);
+      
+      let result;
+      try {
+        result = JSON.parse(responseText);
+      } catch (parseError) {
+        console.error('Failed to parse JSON:', parseError);
+        throw new Error('Invalid response format from server');
+      }
+      
       console.log('Prediction result:', result);
       
+      // Ensure the result has the expected structure
+      if (!result.class || result.confidence === undefined) {
+        throw new Error('Invalid prediction result format');
+      }
+      
       setPredictionResult(result);
+      
+      // Save to history - keep confidence as percentage
+      const historyStore = useHistoryStore.getState();
+      await historyStore.saveHistory(
+        result.class,
+        result.confidence, // Keep as percentage (0-100)
+        selectedImage
+      );
       
     } catch (error) {
       console.error('Error making prediction:', error);

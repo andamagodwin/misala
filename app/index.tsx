@@ -22,7 +22,7 @@ export default function IndexPage() {
   // Show loading screen while determining where to redirect
   return (
     <View style={styles.container}>
-      <ActivityIndicator size="large" color="#007AFF" />
+      <ActivityIndicator size="large" color="#16dc16" />
     </View>
   );
 }

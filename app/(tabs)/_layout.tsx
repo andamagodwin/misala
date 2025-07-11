@@ -59,8 +59,8 @@ export default function TabLayout() {
       <Tabs.Screen
         name="two"
         options={{
-          title: 'Community',
-          tabBarIcon: ({ color }) => <Ionicons name="people" size={24} color={color} />,
+          title: 'History',
+          tabBarIcon: ({ color }) => <Ionicons name="time" size={24} color={color} />,
           headerRight: () => <CustomHeader />,
         }}
       />
