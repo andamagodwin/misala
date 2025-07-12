@@ -1,4 +1,4 @@
-import { Stack } from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
 import { View, Text, TouchableOpacity, Image, Alert, ActivityIndicator } from 'react-native';
 import { useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
@@ -6,6 +6,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useHistoryStore } from '../../store/historyStore';
 
 export default function Home() {
+  const router = useRouter();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [predictionResult, setPredictionResult] = useState<{
@@ -164,7 +165,7 @@ export default function Home() {
               className="bg-primary px-6 py-3 rounded-lg shadow-sm flex-row items-center"
             >
               <MaterialIcons name="photo-library" size={24} color="white" />
-              <Text className="text-white font-bold ml-2">Gallery</Text>
+              <Text style={{ fontFamily: 'Poppins-Bold' }} className="text-white ml-2">Gallery</Text>
             </TouchableOpacity>
             
             <TouchableOpacity
@@ -172,7 +173,7 @@ export default function Home() {
               className="bg-primary px-6 py-3 rounded-lg shadow-sm flex-row items-center"
             >
               <MaterialIcons name="camera-alt" size={24} color="white" />
-              <Text className="text-white font-bold ml-2">Camera</Text>
+              <Text style={{ fontFamily: 'Poppins-Bold' }} className="text-white ml-2">Camera</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -194,7 +195,7 @@ export default function Home() {
                 {isLoading ? (
                   <ActivityIndicator size="small" color="white" />
                 ) : (
-                  <Text className="text-white font-semibold">Identify</Text>
+                  <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-white">Identify</Text>
                 )}
               </TouchableOpacity>
               
@@ -203,7 +204,7 @@ export default function Home() {
                 disabled={isLoading}
                 className={`bg-red-500 px-6 py-3 rounded-lg shadow-sm ${isLoading ? 'opacity-50' : ''}`}
               >
-                <Text className="text-white font-semibold">Remove</Text>
+                <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-white">Remove</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -213,28 +214,28 @@ export default function Home() {
         {predictionResult && (
           <View className="mb-8 items-center">
             <View className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 w-full max-w-sm">
-              <Text className="text-xl font-bold text-gray-800 mb-4 text-center">
+              <Text style={{ fontFamily: 'Poppins-Bold' }} className="text-xl text-gray-800 mb-4 text-center">
                 Prediction Result
               </Text>
               
               <View className="space-y-3">
                 <View className="flex-row justify-between items-center">
-                  <Text className="text-gray-600 font-medium">Plant:</Text>
-                  <Text className="text-lg font-bold text-primary">
+                  <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-gray-600">Plant:</Text>
+                  <Text style={{ fontFamily: 'Poppins-Bold' }} className="text-lg text-primary">
                     {predictionResult.class}
                   </Text>
                 </View>
                 
                 <View className="flex-row justify-between items-center">
-                  <Text className="text-gray-600 font-medium">Confidence:</Text>
-                  <Text className="text-lg font-bold text-gray-800">
+                  <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-gray-600">Confidence:</Text>
+                  <Text style={{ fontFamily: 'Poppins-Bold' }} className="text-lg text-gray-800">
                     {predictionResult.confidence}%
                   </Text>
                 </View>
               </View>
               
               <View className="mt-4 bg-gray-100 rounded-lg p-3">
-                <Text className="text-sm text-gray-600 text-center">
+                <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-sm text-gray-600 text-center">
                   {predictionResult.confidence >= 80 
                     ? "High confidence prediction" 
                     : predictionResult.confidence >= 60 
@@ -242,6 +243,20 @@ export default function Home() {
                     : "Low confidence prediction"}
                 </Text>
               </View>
+
+              {/* Learn More Button */}
+              <TouchableOpacity
+                onPress={() => router.push({
+                  pathname: '/plant-detail',
+                  params: { className: predictionResult.class }
+                })}
+                className="mt-4 bg-primary/10 border border-primary rounded-lg p-3 flex-row items-center justify-center"
+              >
+                <MaterialIcons name="info" size={20} color="#008000" />
+                <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-primary ml-2">
+                  Learn More
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
         )}
@@ -259,7 +274,7 @@ export default function Home() {
 
         {/* Instructions */}
         <View className="items-center">
-          <Text className="font-sans text-gray-600 text-center leading-6 w-72">
+          <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-600 text-center leading-6 w-72">
             {predictionResult 
               ? `The plant has been identified as ${predictionResult.class} with ${predictionResult.confidence}% confidence.`
               : selectedImage 
