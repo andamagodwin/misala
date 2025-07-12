@@ -169,7 +169,7 @@ export default function BlogScreen() {
   return (
     <>
       <Stack.Screen options={{ title: '' }} />
-      <View className="flex-1 bg-gray-50">
+      <View className="flex-1 bg-white">
         {/* Header */}
         <View className="bg-white p-5 pb-3 border-b border-gray-200">
           <View className="flex-row justify-between items-center mb-3">
@@ -177,21 +177,21 @@ export default function BlogScreen() {
               <Text style={{ fontFamily: 'Poppins-Bold' }} className="text-2xl text-gray-800">
                 Plant Health Blog
               </Text>
-              <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-600 mt-1">
+              {/* <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-600 mt-1">
                 Share knowledge about plants and natural remedies
-              </Text>
+              </Text> */}
             </View>
             <TouchableOpacity
               onPress={handleAddBlog}
-              className="bg-primary p-3 rounded-full shadow-lg"
+              className="bg-primary p-3 rounded-md shadow-lg"
             >
               <MaterialIcons name="add" size={24} color="white" />
             </TouchableOpacity>
           </View>
           
           {/* Search Bar */}
-          <View className="flex-row items-center bg-gray-100 rounded-lg px-3 py-2">
-            <MaterialIcons name="search" size={20} color="#6b7280" />
+          <View className="flex-row items-center bg-white rounded-lg px-3 py-2">
+            <MaterialIcons name="search" size={28} color="#6b7280" />
             <TextInput
               placeholder="Search blogs..."
               value={searchQuery}
@@ -228,7 +228,7 @@ export default function BlogScreen() {
             {blogs.map((blog) => (
               <View
                 key={blog.$id}
-                className="mb-6 bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden"
+                className="mb-6 bg-white rounded-xl shadow-lg overflow-hidden"
               >
                 {/* Blog Header */}
                 <View className="p-4 pb-3">
