@@ -6,14 +6,21 @@ import { useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
 import { useAuthStore } from '../store/authStore';
 import { StatusBar } from 'expo-status-bar';
+import { loadFonts } from '../utils/fonts';
 
 export default function RootLayout() {
   const { initialize } = useAuthStore();
   const [initError, setInitError] = useState<string | null>(null);
+  const [fontsLoaded, setFontsLoaded] = useState(false);
 
   useEffect(() => {
     const initializeApp = async () => {
       try {
+        // Load fonts first
+        await loadFonts();
+        setFontsLoaded(true);
+        
+        // Then initialize the app
         await initialize();
       } catch (error) {
         console.error('App initialization failed:', error);
@@ -27,12 +34,20 @@ export default function RootLayout() {
   if (initError) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20 }}>
-        <Text style={{ fontSize: 18, color: 'red', textAlign: 'center', marginBottom: 10 }}>
+        <Text style={{ fontSize: 18, color: 'red', textAlign: 'center', marginBottom: 10, fontFamily: 'Poppins-Medium' }}>
           App Failed to Start
         </Text>
-        <Text style={{ fontSize: 14, color: 'gray', textAlign: 'center' }}>
+        <Text style={{ fontSize: 14, color: 'gray', textAlign: 'center', fontFamily: 'Poppins-Regular' }}>
           {initError}
         </Text>
+      </View>
+    );
+  }
+
+  if (!fontsLoaded) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text style={{ fontSize: 16, color: 'gray' }}>Loading fonts...</Text>
       </View>
     );
   }

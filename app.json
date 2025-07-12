@@ -35,6 +35,11 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "fonts": [
+      "./assets/fonts/Poppins-Regular.ttf",
+      "./assets/fonts/Poppins-Medium.ttf",
+      "./assets/fonts/Poppins-Bold.ttf"
+    ],
     "ios": {
       "supportsTablet": true
     },

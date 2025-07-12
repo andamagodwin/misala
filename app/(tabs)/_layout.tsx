@@ -47,6 +47,7 @@ export default function TabLayout() {
           fontSize: 12,
           marginTop: 0,
           marginBottom: 4,
+          fontFamily: 'Poppins-Medium',
         },
         tabBarStyle: {
           backgroundColor: '#fff',
@@ -60,6 +61,7 @@ export default function TabLayout() {
         headerTintColor: '#fff',
         headerTitleStyle: {
           fontWeight: 'bold',
+          fontFamily: 'Poppins-Bold',
         },
       }}>
       <Tabs.Screen

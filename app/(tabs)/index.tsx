@@ -164,7 +164,7 @@ export default function Home() {
               className="bg-primary px-6 py-3 rounded-lg shadow-sm flex-row items-center"
             >
               <MaterialIcons name="photo-library" size={24} color="white" />
-              <Text className="text-white font-semibold ml-2">Gallery</Text>
+              <Text className="text-white font-bold ml-2">Gallery</Text>
             </TouchableOpacity>
             
             <TouchableOpacity
@@ -172,7 +172,7 @@ export default function Home() {
               className="bg-primary px-6 py-3 rounded-lg shadow-sm flex-row items-center"
             >
               <MaterialIcons name="camera-alt" size={24} color="white" />
-              <Text className="text-white font-semibold ml-2">Camera</Text>
+              <Text className="text-white font-bold ml-2">Camera</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -259,7 +259,7 @@ export default function Home() {
 
         {/* Instructions */}
         <View className="items-center">
-          <Text className="text-base text-gray-600 text-center leading-6">
+          <Text className="font-sans text-gray-600 text-center leading-6 w-72">
             {predictionResult 
               ? `The plant has been identified as ${predictionResult.class} with ${predictionResult.confidence}% confidence.`
               : selectedImage 

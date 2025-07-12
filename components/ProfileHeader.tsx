@@ -26,7 +26,7 @@ export const ProfileHeader = () => {
       className="flex-row items-center px-4 py-2"
     >
       <View className="w-8 h-8 rounded-full bg-green-500 items-center justify-center mr-2">
-        <Text className="text-white font-bold text-sm">
+        <Text style={{ fontFamily: 'Poppins-Bold' }} className="text-white text-sm">
           {getInitials(user?.name || '')}
         </Text>
       </View>
