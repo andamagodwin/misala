@@ -83,7 +83,7 @@ export default function HistoryScreen() {
 
   return (
     <>
-      <Stack.Screen options={{ title: 'History' }} />
+      <Stack.Screen options={{ title: '' }} />
       <View className="flex-1 bg-white">
         {/* Header */}
         <View className="p-5 pb-3">

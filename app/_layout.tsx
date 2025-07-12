@@ -47,6 +47,20 @@ export default function RootLayout() {
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="edit-profile" />
         <Stack.Screen 
+          name="profile" 
+          options={{ 
+            presentation: 'modal',
+            headerShown: true,
+            headerStyle: {
+              backgroundColor: '#6cf16b',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }} 
+        />
+        <Stack.Screen 
           name="add-remedy" 
           options={{ 
             presentation: 'modal',

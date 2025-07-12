@@ -141,7 +141,7 @@ export default function Home() {
 
   return (
     <>
-      <Stack.Screen options={{ title: 'Identify' }} />
+      <Stack.Screen options={{ title: '' }} />
       <View className="flex-1 p-5 bg-white">
         {/* <Text className="text-3xl font-bold text-gray-800 mb-8 text-center">Welcome to Misala!</Text>
         

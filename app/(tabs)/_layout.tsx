@@ -3,8 +3,8 @@ import { useEffect } from 'react';
 import { View, ActivityIndicator, StyleSheet } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-import { TabBarIcon } from '../../components/TabBarIcon';
 import { CustomHeader } from '../../components/CustomHeader';
+import { ProfileHeader } from '../../components/ProfileHeader';
 import { useAuthStore } from '../../store/authStore';
 
 export default function TabLayout() {
@@ -22,7 +22,7 @@ export default function TabLayout() {
   if (!isInitialized) {
     return (
       <View style={styles.container}>
-        <ActivityIndicator size="large" color="#6cf16b" />
+        <ActivityIndicator size="large" color="#008000" />
       </View>
     );
   }
@@ -31,7 +31,7 @@ export default function TabLayout() {
   if (!isAuthenticated) {
     return (
       <View style={styles.container}>
-        <ActivityIndicator size="large" color="#6cf16b" />
+        <ActivityIndicator size="large" color="#008000" />
       </View>
     );
   }
@@ -39,9 +39,23 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: '#6cf16b',
+        tabBarActiveTintColor: '#008000',
+        tabBarInactiveTintColor: '#000',
+        tabBarShowLabel: true,
+        tabBarLabelPosition: 'below-icon',
+        tabBarLabelStyle: {
+          fontSize: 12,
+          marginTop: 0,
+          marginBottom: 4,
+        },
+        tabBarStyle: {
+          backgroundColor: '#fff',
+          borderTopWidth: 1,
+          borderTopColor: '#e5e5e5',
+          height: 95,
+        },
         headerStyle: {
-          backgroundColor: '#6cf16b',
+          backgroundColor: '#008000',
         },
         headerTintColor: '#fff',
         headerTitleStyle: {
@@ -52,7 +66,11 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'Identify',
-          tabBarIcon: ({ color }) => <Ionicons name="search" size={24} color={color} />,
+          tabBarLabel: 'Identify',
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons name={focused ? "search" : "search-outline"} size={22} color={color} />
+          ),
+          headerLeft: () => <ProfileHeader />,
           headerRight: () => <CustomHeader />,
         }}
       />
@@ -60,7 +78,11 @@ export default function TabLayout() {
         name="community"
         options={{
           title: 'Community',
-          tabBarIcon: ({ color }) => <Ionicons name="people" size={24} color={color} />,
+          tabBarLabel: 'Community',
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons name={focused ? "people" : "people-outline"} size={22} color={color} />
+          ),
+          headerLeft: () => <ProfileHeader />,
           headerRight: () => <CustomHeader />,
         }}
       />
@@ -68,15 +90,23 @@ export default function TabLayout() {
         name="two"
         options={{
           title: 'History',
-          tabBarIcon: ({ color }) => <Ionicons name="time" size={24} color={color} />,
+          tabBarLabel: 'History',
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons name={focused ? "time" : "time-outline"} size={22} color={color} />
+          ),
+          headerLeft: () => <ProfileHeader />,
           headerRight: () => <CustomHeader />,
         }}
       />
       <Tabs.Screen
-        name="profile"
+        name="blog"
         options={{
-          title: 'Profile',
-          tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
+          title: 'Blog',
+          tabBarLabel: 'Blog',
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons name={focused ? "book" : "book-outline"} size={22} color={color} />
+          ),
+          headerLeft: () => <ProfileHeader />,
           headerRight: () => <CustomHeader />,
         }}
       />

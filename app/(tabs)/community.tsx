@@ -64,7 +64,7 @@ export default function CommunityScreen() {
 
   return (
     <>
-      <Stack.Screen options={{ title: 'Community' }} />
+      <Stack.Screen options={{ title: '' }} />
       <View className="flex-1 bg-gray-50">
         {/* Header */}
         <View className="bg-white p-5 pb-3 border-b border-gray-200">

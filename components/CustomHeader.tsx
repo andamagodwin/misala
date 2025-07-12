@@ -1,10 +1,10 @@
 import { View, TouchableOpacity, Text, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
+// import { useRouter } from 'expo-router';
 import { useState } from 'react';
 
 export function CustomHeader() {
-  const router = useRouter();
+  // const router = useRouter();
   const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState('English');
 
@@ -15,9 +15,9 @@ export function CustomHeader() {
     Alert.alert('Language Selected', `Switched to ${language}`);
   };
 
-  const handleHistoryPress = () => {
-    router.push('/history' as any);
-  };
+  // const handleHistoryPress = () => {
+  //   router.push('/history' as any);
+  // };
 
   return (
     <View className="flex-row items-center space-x-4 pr-4">
@@ -53,13 +53,7 @@ export function CustomHeader() {
         )}
       </View>
 
-      {/* History Icon */}
-      <TouchableOpacity
-        onPress={handleHistoryPress}
-        className="p-2"
-      >
-        <Ionicons name="time" size={24} color="white" />
-      </TouchableOpacity>
+      
     </View>
   );
 }
