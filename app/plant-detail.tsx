@@ -33,7 +33,21 @@ export default function PlantDetailScreen() {
   if (isLoading) {
     return (
       <SafeAreaView className="flex-1 bg-white">
-        <Stack.Screen options={{ title: 'Plant Information' }} />
+        <Stack.Screen options={{ headerShown: false }} />
+        
+        {/* Custom Header */}
+        <View className="bg-primary px-4 py-3 flex-row items-center shadow-sm">
+          <TouchableOpacity
+            onPress={() => router.back()}
+            className="mr-4 p-2 -ml-2"
+          >
+            <MaterialIcons name="arrow-back" size={24} color="white" />
+          </TouchableOpacity>
+          <Text style={{ fontFamily: 'Poppins-Bold' }} className="text-white text-xl flex-1">
+            Plant Information
+          </Text>
+        </View>
+        
         <View className="flex-1 justify-center items-center">
           <ActivityIndicator size="large" color="#008000" />
           <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-600 mt-4">
@@ -47,7 +61,21 @@ export default function PlantDetailScreen() {
   if (!plantInfo) {
     return (
       <SafeAreaView className="flex-1 bg-white">
-        <Stack.Screen options={{ title: 'Plant Information' }} />
+        <Stack.Screen options={{ headerShown: false }} />
+        
+        {/* Custom Header */}
+        <View className="bg-primary px-4 py-3 flex-row items-center shadow-sm">
+          <TouchableOpacity
+            onPress={() => router.back()}
+            className="mr-4 p-2 -ml-2"
+          >
+            <MaterialIcons name="arrow-back" size={24} color="white" />
+          </TouchableOpacity>
+          <Text style={{ fontFamily: 'Poppins-Bold' }} className="text-white text-xl flex-1">
+            Plant Information
+          </Text>
+        </View>
+        
         <View className="flex-1 justify-center items-center p-5">
           <MaterialIcons name="info-outline" size={80} color="#ccc" />
           <Text style={{ fontFamily: 'Poppins-Bold' }} className="text-xl text-gray-600 mt-4 text-center">
@@ -71,16 +99,26 @@ export default function PlantDetailScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
-      <Stack.Screen 
-        options={{ 
-          title: 'Plant Information',
-          headerStyle: { backgroundColor: '#008000' },
-          headerTintColor: '#fff',
-          headerTitleStyle: { fontFamily: 'Poppins-Bold' }
-        }} 
-      />
+      <Stack.Screen options={{ headerShown: false }} />
       
-      <ScrollView className="flex-1">
+      {/* Custom Header */}
+      <View className="bg-primary px-4 py-3 flex-row items-center shadow-sm">
+        <TouchableOpacity
+          onPress={() => router.back()}
+          className="mr-4 p-2 -ml-2"
+        >
+          <MaterialIcons name="arrow-back" size={24} color="white" />
+        </TouchableOpacity>
+        <Text style={{ fontFamily: 'Poppins-Bold' }} className="text-white text-xl flex-1">
+          Plant Information
+        </Text>
+      </View>
+      
+      <ScrollView 
+        className="flex-1"
+        contentContainerStyle={{ paddingBottom: 20 }}
+        showsVerticalScrollIndicator={false}
+      >
         {/* Header Card */}
         <View className="bg-white mx-4 mt-4 rounded-xl shadow-sm border border-gray-200">
           <View className="p-6">
