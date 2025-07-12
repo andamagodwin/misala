@@ -4,6 +4,7 @@ import { useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useHistoryStore } from '../../store/historyStore';
+import { FeedbackModal } from '../../components/FeedbackModal';
 
 export default function Home() {
   const router = useRouter();
@@ -13,6 +14,7 @@ export default function Home() {
     class: string;
     confidence: number;
   } | null>(null);
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
 
   const requestPermissions = async () => {
     const { status: cameraStatus } = await ImagePicker.requestCameraPermissionsAsync();
@@ -257,6 +259,17 @@ export default function Home() {
                   Learn More
                 </Text>
               </TouchableOpacity>
+
+              {/* Report Issue Button */}
+              <TouchableOpacity
+                onPress={() => setShowFeedbackModal(true)}
+                className="mt-2 bg-orange-50 border border-orange-300 rounded-lg p-3 flex-row items-center justify-center"
+              >
+                <MaterialIcons name="report-problem" size={20} color="#ea580c" />
+                <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-orange-600 ml-2">
+                  Report Issue
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
         )}
@@ -284,6 +297,16 @@ export default function Home() {
           </Text>
         </View>
       </View>
+
+      {/* Feedback Modal */}
+      {predictionResult && selectedImage && (
+        <FeedbackModal
+          visible={showFeedbackModal}
+          onClose={() => setShowFeedbackModal(false)}
+          predictionResult={predictionResult}
+          imageUri={selectedImage}
+        />
+      )}
     </>
   );
 }
