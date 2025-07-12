@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'expo-router';
 import { useAuthStore } from '../store/authStore';
 import { View, ActivityIndicator, StyleSheet } from 'react-native';
+// import { StatusBar } from 'expo-status-bar';
 
 export default function IndexPage() {
   const { user, isAuthenticated, isInitialized } = useAuthStore();
@@ -22,7 +23,7 @@ export default function IndexPage() {
   // Show loading screen while determining where to redirect
   return (
     <View style={styles.container}>
-      <ActivityIndicator size="large" color="#16dc16" />
+      <ActivityIndicator size="large" color="#008000" />
     </View>
   );
 }

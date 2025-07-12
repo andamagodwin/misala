@@ -54,7 +54,7 @@ export default function RootLayout() {
 
   return (
     <>
-      <StatusBar backgroundColor="#6cf16b" style="auto" />
+      <StatusBar backgroundColor="#008000" style="auto" />
 
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="index" />
@@ -67,7 +67,7 @@ export default function RootLayout() {
             presentation: 'modal',
             headerShown: true,
             headerStyle: {
-              backgroundColor: '#6cf16b',
+              backgroundColor: '#008000',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
