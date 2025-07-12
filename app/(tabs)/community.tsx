@@ -70,8 +70,8 @@ export default function CommunityScreen() {
         <View className="bg-white p-5 pb-3 border-b border-gray-200">
           <View className="flex-row justify-between items-center">
             <View>
-              <Text className="text-2xl font-bold text-gray-800">Plant Remedies</Text>
-              <Text className="text-gray-600 mt-1">
+              <Text style={{ fontFamily: 'Poppins-Bold' }} className="text-2xl text-gray-800">Plant Remedies</Text>
+              <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-600 mt-1">
                 {remedies.length} remedies shared by the community
               </Text>
             </View>
@@ -87,15 +87,15 @@ export default function CommunityScreen() {
         {/* Error Display */}
         {error && (
           <View className="mx-5 mt-3 p-3 bg-red-100 border border-red-300 rounded-lg">
-            <Text className="text-red-700">{error}</Text>
+            <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-red-700">{error}</Text>
           </View>
         )}
 
         {/* Loading State */}
         {isLoading && remedies.length === 0 && (
           <View className="flex-1 justify-center items-center">
-            <ActivityIndicator size="large" color="#6cf16b" />
-            <Text className="text-gray-600 mt-4">Loading remedies...</Text>
+            <ActivityIndicator size="large" color="#008000" />
+            <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-600 mt-4">Loading remedies...</Text>
           </View>
         )}
 
@@ -103,17 +103,17 @@ export default function CommunityScreen() {
         {!isLoading && remedies.length === 0 && (
           <View className="flex-1 justify-center items-center p-5">
             <MaterialIcons name="eco" size={80} color="#ccc" />
-            <Text className="text-xl font-semibold text-gray-600 mt-4 text-center">
+            <Text style={{ fontFamily: 'Poppins-Bold' }} className="text-xl text-gray-600 mt-4 text-center">
               No remedies shared yet
             </Text>
-            <Text className="text-gray-500 mt-2 text-center">
+            <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-500 mt-2 text-center">
               Be the first to share a plant remedy with the community
             </Text>
             <TouchableOpacity
               onPress={handleAddRemedy}
               className="bg-primary px-6 py-3 rounded-lg mt-4"
             >
-              <Text className="text-white font-semibold">Share a Remedy</Text>
+              <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-white">Share a Remedy</Text>
             </TouchableOpacity>
           </View>
         )}
@@ -121,7 +121,7 @@ export default function CommunityScreen() {
         {/* Remedies List */}
         {remedies.length > 0 && (
           <ScrollView
-            className="flex-1"
+            className="flex-1 bg-white"
             refreshControl={
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }
@@ -131,27 +131,27 @@ export default function CommunityScreen() {
                 const isExpanded = expandedCards[remedy.$id] || false;
                 
                 return (
-                  <View key={remedy.$id} className="mb-6 bg-white rounded-xl shadow-sm border border-gray-200">
+                  <View key={remedy.$id} className="mb-6 bg-white rounded-xl shadow-lg">
                     {/* Header */}
                     <View className="p-4 border-b border-gray-100">
                       <View className="flex-row items-center justify-between">
                         <View className="flex-row items-center flex-1">
                           <View className="w-10 h-10 bg-primary rounded-full items-center justify-center mr-3">
-                            <Text className="text-white font-bold text-sm">
+                            <Text style={{ fontFamily: 'Poppins-Bold' }} className="text-white text-sm">
                               {getInitials(remedy.author_name)}
                             </Text>
                           </View>
                           <View className="flex-1">
-                            <Text className="text-gray-800 font-semibold">
+                            <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-gray-800">
                               {remedy.author_name}
                             </Text>
-                            <Text className="text-gray-500 text-sm">
+                            <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-500 text-sm">
                               {formatDate(remedy.created_at)}
                             </Text>
                           </View>
                         </View>
                         <View className="bg-green-100 px-3 py-1 rounded-full">
-                          <Text className="text-green-800 text-xs font-medium">
+                          <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-green-800 text-xs">
                             {remedy.plant_name}
                           </Text>
                         </View>
@@ -160,25 +160,25 @@ export default function CommunityScreen() {
 
                     {/* Content */}
                     <View className="p-4">
-                      <Text className="text-lg font-bold text-gray-800 mb-2">
+                      <Text style={{ fontFamily: 'Poppins-Bold' }} className="text-lg text-gray-800 mb-2">
                         {remedy.title}
                       </Text>
-                      <Text className="text-gray-600 mb-4 leading-6">
+                      <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-600 mb-4 leading-6">
                         {remedy.description}
                       </Text>
 
                       {/* Collapsed view - only show ingredients */}
                       {!isExpanded && (
                         <View className="mb-4">
-                          <Text className="text-gray-800 font-semibold mb-2">
+                          <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-gray-800 mb-2">
                             Ingredients:
                           </Text>
                           <View className="bg-gray-50 rounded-lg p-3">
-                            <Text className="text-gray-700" numberOfLines={2}>
+                            <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-700" numberOfLines={2}>
                               {remedy.ingredients}
                             </Text>
                             {remedy.ingredients.length > 100 && (
-                              <Text className="text-gray-500 text-xs mt-1">
+                              <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-500 text-xs mt-1">
                                 ... tap View More to see full details
                               </Text>
                             )}
@@ -191,11 +191,11 @@ export default function CommunityScreen() {
                         <>
                           {/* Ingredients */}
                           <View className="mb-4">
-                            <Text className="text-gray-800 font-semibold mb-2">
+                            <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-gray-800 mb-2">
                               Ingredients:
                             </Text>
                             <View className="bg-gray-50 rounded-lg p-3">
-                              <Text className="text-gray-700">
+                              <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-700">
                                 {remedy.ingredients}
                               </Text>
                             </View>
@@ -203,11 +203,11 @@ export default function CommunityScreen() {
 
                           {/* Preparation Method */}
                           <View className="mb-4">
-                            <Text className="text-gray-800 font-semibold mb-2">
+                            <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-gray-800 mb-2">
                               Preparation Method:
                             </Text>
                             <View className="bg-gray-50 rounded-lg p-3">
-                              <Text className="text-gray-700">
+                              <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-700">
                                 {remedy.preparation_method}
                               </Text>
                             </View>
@@ -215,11 +215,11 @@ export default function CommunityScreen() {
 
                           {/* Usage Instructions */}
                           <View className="mb-4">
-                            <Text className="text-gray-800 font-semibold mb-2">
+                            <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-gray-800 mb-2">
                               How to Use:
                             </Text>
                             <View className="bg-gray-50 rounded-lg p-3">
-                              <Text className="text-gray-700">
+                              <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-700">
                                 {remedy.usage_instructions}
                               </Text>
                             </View>
@@ -228,11 +228,11 @@ export default function CommunityScreen() {
                           {/* Benefits */}
                           {remedy.benefits && (
                             <View className="mb-4">
-                              <Text className="text-gray-800 font-semibold mb-2">
+                              <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-gray-800 mb-2">
                                 Benefits:
                               </Text>
                               <View className="bg-blue-50 rounded-lg p-3">
-                                <Text className="text-blue-700">
+                                <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-blue-700">
                                   {remedy.benefits}
                                 </Text>
                               </View>
@@ -242,11 +242,11 @@ export default function CommunityScreen() {
                           {/* Cautions */}
                           {remedy.cautions && (
                             <View className="mb-4">
-                              <Text className="text-gray-800 font-semibold mb-2">
+                              <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-gray-800 mb-2">
                                 Cautions:
                               </Text>
                               <View className="bg-yellow-50 rounded-lg p-3 border border-yellow-200">
-                                <Text className="text-yellow-800">
+                                <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-yellow-800">
                                   ⚠️ {remedy.cautions}
                                 </Text>
                               </View>
@@ -260,29 +260,15 @@ export default function CommunityScreen() {
                         onPress={() => toggleCard(remedy.$id)}
                         className="bg-primary/10 border border-primary/20 rounded-lg p-3 mb-4 flex-row items-center justify-center active:bg-primary/20"
                       >
-                        <Text className="text-primary font-semibold mr-2">
+                        <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-primary mr-2">
                           {isExpanded ? 'View Less' : 'View More'}
                         </Text>
                         <MaterialIcons 
                           name={isExpanded ? 'expand-less' : 'expand-more'} 
                           size={20} 
-                          color="#6cf16b" 
+                          color="#008000" 
                         />
                       </TouchableOpacity>
-
-                      {/* Footer */}
-                      <View className="flex-row items-center justify-between pt-3 border-t border-gray-100">
-                        <View className="flex-row items-center">
-                          <MaterialIcons name="eco" size={16} color="#6cf16b" />
-                          <Text className="text-gray-500 text-sm ml-1">
-                            Natural Remedy
-                          </Text>
-                        </View>
-                        <TouchableOpacity className="flex-row items-center">
-                          <MaterialIcons name="bookmark-border" size={16} color="#6b7280" />
-                          <Text className="text-gray-500 text-sm ml-1">Save</Text>
-                        </TouchableOpacity>
-                      </View>
                     </View>
                   </View>
                 );
