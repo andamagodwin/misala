@@ -86,7 +86,7 @@ export default function ChatbotScreen() {
   `;
 
   const FallbackChat = () => (
-    <ScrollView className="flex-1 p-4">
+    <ScrollView className="flex-1 p-4 pt-20">
       <View className="items-center mb-6">
         <View className="bg-primary/10 p-6 rounded-full mb-4">
           <MaterialIcons name="smart-toy" size={48} color="#008000" />
