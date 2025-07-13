@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Alert, ActivityIndicator, Image } from 'react-native';
 import { useState } from 'react';
 import { Link, router } from 'expo-router';
 import { account } from '../../lib/appwriteConfig';
@@ -64,6 +64,15 @@ export default function LoginScreen() {
 
   return (
     <View className="flex-1 justify-center p-5 bg-white">
+      {/* Login Image */}
+      <View className="items-center mb-8">
+        <Image 
+          source={require('../../assets/secure-login.png')} 
+          className="w-48 h-48"
+          resizeMode="contain"
+        />
+      </View>
+
       <View>
               <Text style={{ fontFamily: 'Poppins-Bold' }} className="text-3xl text-center mb-3 text-gray-800">Welcome Back! Glad to See you, Again!</Text>
       </View>
@@ -99,7 +108,7 @@ export default function LoginScreen() {
           {loading ? (
             <ActivityIndicator color="#fff" />
           ) : (
-            <Text className="text-white text-base font-semibold">Sign In</Text>
+            <Text className="text-white text-base font-semibold" style={{ fontFamily: 'Poppins-SemiBold' }}>Sign In</Text>
           )}
         </TouchableOpacity>
 
@@ -116,7 +125,7 @@ export default function LoginScreen() {
         </Link> */}
 
         <Link href="/(auth)/signup" className="items-center mt-4">
-          <Text className="text-primary text-base">Don&apos;t have an account? Sign up</Text>
+          <Text className="text-primary text-base" style={{ fontFamily: 'Poppins-Regular' }}>Don&apos;t have an account? Sign up</Text>
         </Link>
       </View>
     </View>
