@@ -10,6 +10,8 @@ interface AuthState {
   setAuth: (user: Models.User<Models.Preferences>) => void;
   clearAuth: () => void;
   initialize: () => Promise<void>;
+  updateUserTermsAcceptance: (accepted: boolean) => Promise<void>;
+  checkTermsAcceptance: () => boolean;
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({
@@ -88,5 +90,32 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         isInitialized: true 
       });
     }
+  },
+
+  updateUserTermsAcceptance: async (accepted: boolean) => {
+    try {
+      const currentUser = get().user;
+      if (!currentUser) {
+        throw new Error('No user found');
+      }
+
+      // Update user preferences with terms acceptance
+      const updatedUser = await account.updatePrefs({
+        ...currentUser.prefs,
+        termsAccepted: accepted,
+        termsAcceptedDate: new Date().toISOString(),
+      });
+
+      // Update the local state
+      set({ user: updatedUser });
+    } catch (error) {
+      console.error('Error updating terms acceptance:', error);
+      throw error;
+    }
+  },
+
+  checkTermsAcceptance: () => {
+    const user = get().user;
+    return user?.prefs?.termsAccepted === true;
   },
 }));

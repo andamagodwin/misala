@@ -54,7 +54,7 @@ export default function SignupScreen() {
       setAuth(userDetails);
 
       Alert.alert('Success', 'Account created successfully!', [
-        { text: 'OK', onPress: () => router.replace('/(tabs)') }
+        { text: 'OK', onPress: () => router.replace('/') }
       ]);
 
     } catch (error: any) {
@@ -74,13 +74,13 @@ export default function SignupScreen() {
   };
 
   return (
-    <View className="flex-1 justify-center p-5 bg-gray-100">
-      <Text className="text-3xl font-bold text-center mb-3 text-gray-800">Create Account</Text>
+    <View className="flex-1 justify-center p-5 bg-white">
+      <Text className="text-3xl font-bold text-center mb-3 text-gray-800">Hello! Register to get started</Text>
       <Text className="text-base text-center mb-8 text-gray-600">Sign up to get started</Text>
 
-      <View className="space-y-4">
+      <View className="space-y-4 flex-col justify-center gap-4">
         <TextInput
-          className="border border-gray-300 p-4 rounded-lg text-base bg-white"
+          className="border border-black p-4 rounded-lg text-base bg-white"
           placeholder="Full Name"
           value={name}
           onChangeText={setName}
@@ -88,7 +88,7 @@ export default function SignupScreen() {
         />
 
         <TextInput
-          className="border border-gray-300 p-4 rounded-lg text-base bg-white"
+          className="border border-black p-4 rounded-lg text-base bg-white"
           placeholder="Email"
           value={email}
           onChangeText={setEmail}
@@ -98,7 +98,7 @@ export default function SignupScreen() {
         />
 
         <TextInput
-          className="border border-gray-300 p-4 rounded-lg text-base bg-white"
+          className="border border-black p-4 rounded-lg text-base bg-white"
           placeholder="Password"
           value={password}
           onChangeText={setPassword}
@@ -107,7 +107,7 @@ export default function SignupScreen() {
         />
 
         <TextInput
-          className="border border-gray-300 p-4 rounded-lg text-base bg-white"
+          className="border border-black p-4 rounded-lg text-base bg-white"
           placeholder="Confirm Password"
           value={confirmPassword}
           onChangeText={setConfirmPassword}

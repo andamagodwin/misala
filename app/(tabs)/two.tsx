@@ -1,4 +1,4 @@
-import { Stack } from 'expo-router';
+import { Link, Stack } from 'expo-router';
 import { View, Text, ScrollView, TouchableOpacity, Image, Alert, ActivityIndicator, RefreshControl } from 'react-native';
 import { useState, useEffect } from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -128,6 +128,13 @@ export default function HistoryScreen() {
             <Text className="text-gray-500 mt-2 text-center">
               Start identifying plants to see your history here
             </Text>
+
+            {/* route to terms */}
+        <Link href="/terms-conditions" className="mt-4">
+          <Text className="text-primary">View Terms and Conditions</Text>
+        </Link>
+
+
           </View>
         )}
 

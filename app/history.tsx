@@ -21,6 +21,8 @@ export default function HistoryScreen() {
         <Text className="text-base text-gray-600 text-center px-4">
           This screen will show your prediction history.
         </Text>
+
+        
       </View>
     </>
   );

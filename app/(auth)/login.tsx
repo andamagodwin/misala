@@ -31,8 +31,8 @@ export default function LoginScreen() {
       // Update auth store
       setAuth(user);
       
-      // Navigate to main app
-      router.replace('/(tabs)');
+      // Navigate to index to handle terms checking
+      router.replace('/');
       
     } catch (error: any) {
       console.error('Login error:', error);
