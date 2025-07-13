@@ -75,8 +75,8 @@ export default function SignupScreen() {
 
   return (
     <View className="flex-1 justify-center p-5 bg-white">
-      <Text className="text-3xl font-bold text-center mb-3 text-gray-800">Hello! Register to get started</Text>
-      <Text className="text-base text-center mb-8 text-gray-600">Sign up to get started</Text>
+      <Text className="text-3xl font-bold text-center mb-3 text-gray-800" style={{ fontFamily: 'Poppins-Bold' }}>Hello! Register to get started</Text>
+      <Text className="text-base text-center mb-8 text-gray-600" style={{ fontFamily: 'Poppins-Regular' }}>Sign up to get started</Text>
 
       <View className="space-y-4 flex-col justify-center gap-4">
         <TextInput
@@ -85,6 +85,7 @@ export default function SignupScreen() {
           value={name}
           onChangeText={setName}
           autoCapitalize="words"
+          style={{ fontFamily: 'Poppins-Regular' }}
         />
 
         <TextInput
@@ -95,6 +96,7 @@ export default function SignupScreen() {
           keyboardType="email-address"
           autoCapitalize="none"
           autoCorrect={false}
+          style={{ fontFamily: 'Poppins-Regular' }}
         />
 
         <TextInput
@@ -104,6 +106,7 @@ export default function SignupScreen() {
           onChangeText={setPassword}
           secureTextEntry
           autoCapitalize="none"
+          style={{ fontFamily: 'Poppins-Regular' }}
         />
 
         <TextInput
@@ -113,6 +116,7 @@ export default function SignupScreen() {
           onChangeText={setConfirmPassword}
           secureTextEntry
           autoCapitalize="none"
+          style={{ fontFamily: 'Poppins-Regular' }}
         />
 
         <TouchableOpacity 
@@ -123,12 +127,12 @@ export default function SignupScreen() {
           {loading ? (
             <ActivityIndicator color="#fff" />
           ) : (
-            <Text className="text-white text-base font-semibold">Create Account</Text>
+            <Text className="text-white text-base font-semibold" style={{ fontFamily: 'Poppins-SemiBold' }}>Create Account</Text>
           )}
         </TouchableOpacity>
 
         <Link href="/(auth)/login" className="items-center mt-4">
-          <Text className="text-primary text-base">Already have an account? Sign in</Text>
+          <Text className="text-primary text-base" style={{ fontFamily: 'Poppins-Regular' }}>Already have an account? Sign in</Text>
         </Link>
       </View>
     </View>
