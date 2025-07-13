@@ -36,7 +36,7 @@ export default function PlantDetailScreen() {
         <Stack.Screen options={{ headerShown: false }} />
         
         {/* Custom Header */}
-        <View className="bg-primary px-4 py-3 flex-row items-center shadow-sm">
+        <View className="bg-primary px-4 py-3 pt-10 flex-row items-center shadow-sm">
           <TouchableOpacity
             onPress={() => router.back()}
             className="mr-4 p-2 -ml-2"

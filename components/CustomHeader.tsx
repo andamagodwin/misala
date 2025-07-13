@@ -1,10 +1,10 @@
 import { View, TouchableOpacity, Text, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-// import { useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { useState } from 'react';
 
 export function CustomHeader() {
-  // const router = useRouter();
+  const router = useRouter();
   const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState('English');
 
@@ -13,6 +13,10 @@ export function CustomHeader() {
     setShowLanguageDropdown(false);
     // TODO: Implement language switching logic
     Alert.alert('Language Selected', `Switched to ${language}`);
+  };
+
+  const handleChatbotPress = () => {
+    router.push('/chatbot' as any);
   };
 
   // const handleHistoryPress = () => {
@@ -52,6 +56,14 @@ export function CustomHeader() {
           </View>
         )}
       </View>
+
+      {/* AI Chatbot Icon */}
+      <TouchableOpacity
+        onPress={handleChatbotPress}
+        className="p-2"
+      >
+        <Ionicons name="chatbubble-ellipses" size={24} color="white" />
+      </TouchableOpacity>
 
       
     </View>
