@@ -1,5 +1,5 @@
 import { Stack, useRouter } from 'expo-router';
-import { View, Text, TouchableOpacity, Image, Alert, ActivityIndicator } from 'react-native';
+import { View, Text, TouchableOpacity, Image, Alert, ActivityIndicator, ScrollView } from 'react-native';
 import { useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -145,15 +145,20 @@ export default function Home() {
   return (
     <>
       <Stack.Screen options={{ title: '' }} />
-      <View className="flex-1 p-5 bg-white">
-        {/* <Text className="text-3xl font-bold text-gray-800 mb-8 text-center">Welcome to Misala!</Text>
-        
-        {user && (
-          <View className="items-center mb-8 p-6 bg-white rounded-lg shadow-sm">
-            <Text className="text-xl font-semibold text-gray-800 mb-2">Hello, {user.name}!</Text>
-            <Text className="text-base text-gray-600">{user.email}</Text>
-          </View>
-        )} */}
+      <View className="flex-1 bg-white">
+        <ScrollView 
+          className="flex-1" 
+          contentContainerStyle={{ padding: 20 }}
+          showsVerticalScrollIndicator={false}
+        >
+          {/* <Text className="text-3xl font-bold text-gray-800 mb-8 text-center">Welcome to Misala!</Text>
+          
+          {user && (
+            <View className="items-center mb-8 p-6 bg-white rounded-lg shadow-sm">
+              <Text className="text-xl font-semibold text-gray-800 mb-2">Hello, {user.name}!</Text>
+              <Text className="text-base text-gray-600">{user.email}</Text>
+            </View>
+          )} */}
 
         {/* Image Picker Section */}
         <View className="mb-8">
@@ -296,6 +301,10 @@ export default function Home() {
             }
           </Text>
         </View>
+
+        {/* Extra padding for scroll */}
+        <View className="h-10" />
+        </ScrollView>
       </View>
 
       {/* Feedback Modal */}
