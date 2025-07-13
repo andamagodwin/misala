@@ -50,41 +50,45 @@ export default function LoginScreen() {
     }
   };
 
-  const testConnection = async () => {
-    console.log('Testing Appwrite connection...');
-    try {
-      const health = await account.get();
-      console.log('Connection test result:', health);
-      Alert.alert('Success', 'Connected to Appwrite successfully!');
-    } catch (error: any) {
-      console.error('Connection test error:', error);
-      Alert.alert('Connection Error', error.message || 'Failed to connect to Appwrite');
-    }
-  };
+  // const testConnection = async () => {
+  //   console.log('Testing Appwrite connection...');
+  //   try {
+  //     const health = await account.get();
+  //     console.log('Connection test result:', health);
+  //     Alert.alert('Success', 'Connected to Appwrite successfully!');
+  //   } catch (error: any) {
+  //     console.error('Connection test error:', error);
+  //     Alert.alert('Connection Error', error.message || 'Failed to connect to Appwrite');
+  //   }
+  // };
 
   return (
-    <View className="flex-1 justify-center p-5 bg-gray-100">
-      <Text className="text-3xl font-bold text-center mb-3 text-gray-800">Welcome Back</Text>
-      <Text className="text-base text-center mb-8 text-gray-600">Sign in to your account</Text>
+    <View className="flex-1 justify-center p-5 bg-white">
+      <View>
+              <Text style={{ fontFamily: 'Poppins-Bold' }} className="text-3xl text-center mb-3 text-gray-800">Welcome Back! Glad to See you, Again!</Text>
+      </View>
+      <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-base text-center mb-8 text-gray-600">Sign in to your account</Text>
 
       <View className="space-y-4">
         <TextInput
-          className="border border-gray-300 p-4 rounded-lg text-base bg-white"
+          className="border border-black p-4 rounded-lg text-base bg-white mb-4"
           placeholder="Email"
           value={email}
           onChangeText={setEmail}
           keyboardType="email-address"
           autoCapitalize="none"
           autoCorrect={false}
+          style={{ fontFamily: 'Poppins-Regular' }}
         />
 
         <TextInput
-          className="border border-gray-300 p-4 rounded-lg text-base bg-white"
+          className="border border-black p-4 rounded-lg text-base bg-white mb-8"
           placeholder="Password"
           value={password}
           onChangeText={setPassword}
           secureTextEntry
           autoCapitalize="none"
+          style={{ fontFamily: 'Poppins-Regular' }}
         />
 
         <TouchableOpacity 
@@ -99,12 +103,17 @@ export default function LoginScreen() {
           )}
         </TouchableOpacity>
 
-        <TouchableOpacity 
+        {/* <TouchableOpacity 
           className="bg-green-500 p-3 rounded-lg items-center mt-3"
           onPress={testConnection}
         >
           <Text className="text-white text-sm font-semibold">Test Connection</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
+
+        {/* Button to home */}
+        {/* <Link href="/(tabs)" className="items-center mt-4">
+          <Text className="text-primary text-base">Go to Home</Text>
+        </Link> */}
 
         <Link href="/(auth)/signup" className="items-center mt-4">
           <Text className="text-primary text-base">Don&apos;t have an account? Sign up</Text>
