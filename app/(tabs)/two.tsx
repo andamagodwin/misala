@@ -113,7 +113,7 @@ export default function HistoryScreen() {
         {/* Loading State */}
         {isLoading && history.length === 0 && (
           <View className="flex-1 justify-center items-center">
-            <ActivityIndicator size="large" color="#6cf16b" />
+            <ActivityIndicator size="large" color="#008000" />
             <Text className="text-gray-600 mt-4">Loading your history...</Text>
           </View>
         )}

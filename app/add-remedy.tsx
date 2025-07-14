@@ -106,7 +106,7 @@ export default function AddRemedyScreen() {
           title: 'Share a Remedy',
           headerLeft: () => (
             <TouchableOpacity onPress={handleCancel} disabled={isSubmitting}>
-              <MaterialIcons name="close" size={24} color="#6b7280" />
+              <MaterialIcons name="close" size={28} color="white" />
             </TouchableOpacity>
           ),
           headerRight: () => (
@@ -116,7 +116,7 @@ export default function AddRemedyScreen() {
               className={`px-4 py-2 rounded-lg ${isSubmitting ? 'opacity-50' : ''}`}
             >
               {isSubmitting ? (
-                <ActivityIndicator size="small" color="#6cf16b" />
+                <ActivityIndicator size="small" color="#008000" />
               ) : (
                 <Text className="text-primary font-semibold">Share</Text>
               )}

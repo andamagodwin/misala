@@ -83,7 +83,7 @@ export default function RootLayout() {
             presentation: 'modal',
             headerShown: true,
             headerStyle: {
-              backgroundColor: '#6cf16b',
+              backgroundColor: '#008000',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {

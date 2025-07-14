@@ -8,7 +8,7 @@ export default function HistoryScreen() {
         options={{ 
           title: 'History',
           headerStyle: {
-            backgroundColor: '#6cf16b',
+            backgroundColor: '#008000',
           },
           headerTintColor: '#fff',
           headerTitleStyle: {
