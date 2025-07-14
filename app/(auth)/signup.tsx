@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Alert, ActivityIndicator, Image } from 'react-native';
 import { useState } from 'react';
 import { Link, router } from 'expo-router';
 import { account } from '../../lib/appwriteConfig';
@@ -75,6 +75,15 @@ export default function SignupScreen() {
 
   return (
     <View className="flex-1 justify-center p-5 bg-white">
+      {/* Signup Image */}
+      <View className="items-center mb-6">
+        <Image 
+          source={require('../../assets/signup.png')} 
+          className="w-48 h-48"
+          resizeMode="contain"
+        />
+      </View>
+
       <Text className="text-3xl font-bold text-center mb-3 text-gray-800" style={{ fontFamily: 'Poppins-Bold' }}>Hello! Register to get started</Text>
       <Text className="text-base text-center mb-8 text-gray-600" style={{ fontFamily: 'Poppins-Regular' }}>Sign up to get started</Text>
 
