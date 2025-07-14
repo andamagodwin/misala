@@ -4,8 +4,10 @@ import { useState, useEffect } from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useHistoryStore } from '../../store/historyStore';
 import { useAuthStore } from '../../store/authStore';
+import { useTranslation } from 'react-i18next';
 
 export default function HistoryScreen() {
+  const { t } = useTranslation();
   const { history, isLoading, error, fetchHistory, deleteHistoryItem, clearHistory } = useHistoryStore();
   const { user } = useAuthStore();
   const [refreshing, setRefreshing] = useState(false);
@@ -24,12 +26,12 @@ export default function HistoryScreen() {
 
   const handleDeleteItem = (documentId: string, plantName: string) => {
     Alert.alert(
-      'Delete History Item',
-      `Are you sure you want to delete "${plantName}" from your history?`,
+      t('deleteHistoryItem'),
+      t('deleteConfirm', { plantName }),
       [
-        { text: 'Cancel', style: 'cancel' },
+        { text: t('cancel'), style: 'cancel' },
         { 
-          text: 'Delete', 
+          text: t('delete'), 
           style: 'destructive',
           onPress: () => deleteHistoryItem(documentId)
         }
@@ -39,12 +41,12 @@ export default function HistoryScreen() {
 
   const handleClearAll = () => {
     Alert.alert(
-      'Clear All History',
-      'Are you sure you want to clear all your plant identification history? This action cannot be undone.',
+      t('clearAllHistory'),
+      t('clearAllConfirm'),
       [
-        { text: 'Cancel', style: 'cancel' },
+        { text: t('cancel'), style: 'cancel' },
         { 
-          text: 'Clear All', 
+          text: t('clearAll'), 
           style: 'destructive',
           onPress: clearHistory
         }
@@ -72,10 +74,12 @@ export default function HistoryScreen() {
   if (!user) {
     return (
       <>
-        <Stack.Screen options={{ title: 'History' }} />
+        <Stack.Screen options={{ title: t('history') }} />
         <View className="flex-1 justify-center items-center p-5 bg-white">
           <MaterialIcons name="history" size={80} color="#ccc" />
-          <Text style={{ fontFamily: 'Poppins-SemiBold' }} className="text-xl text-gray-600 mt-4">Please login to view your history</Text>
+          <Text style={{ fontFamily: 'Poppins-SemiBold' }} className="text-xl text-gray-600 mt-4">
+            {t('loginToView')}
+          </Text>
         </View>
       </>
     );
@@ -88,18 +92,22 @@ export default function HistoryScreen() {
         {/* Header */}
         <View className="p-5 pb-3">
           <View className="flex-row justify-between items-center">
-            <Text style={{ fontFamily: 'Poppins-Bold' }} className="text-2xl text-gray-800">Plant History</Text>
+            <Text style={{ fontFamily: 'Poppins-Bold' }} className="text-2xl text-gray-800">
+              {t('plantHistory')}
+            </Text>
             {history.length > 0 && (
               <TouchableOpacity
                 onPress={handleClearAll}
                 className="bg-red-500 px-4 py-2 rounded-lg"
               >
-                <Text style={{ fontFamily: 'Poppins-SemiBold' }} className="text-white">Clear All</Text>
+                <Text style={{ fontFamily: 'Poppins-SemiBold' }} className="text-white">
+                  {t('clearAll')}
+                </Text>
               </TouchableOpacity>
             )}
           </View>
           <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-600 mt-1">
-            {history.length} identification{history.length !== 1 ? 's' : ''}
+            {history.length} {t('historyScreen.identifications', { count: history.length })}
           </Text>
         </View>
 
@@ -114,7 +122,9 @@ export default function HistoryScreen() {
         {isLoading && history.length === 0 && (
           <View className="flex-1 justify-center items-center">
             <ActivityIndicator size="large" color="#008000" />
-            <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-600 mt-4">Loading your history...</Text>
+            <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-600 mt-4">
+              {t('historyScreen.loading')}
+            </Text>
           </View>
         )}
 
@@ -127,10 +137,10 @@ export default function HistoryScreen() {
               resizeMode="contain"
             />
             <Text style={{ fontFamily: 'Poppins-SemiBold' }} className="text-xl text-black mt-4 text-center">
-              You have not scanned anything
+              {t('historyScreen.emptyState.title')}
             </Text>
             <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-500 mt-2 text-center">
-              Start identifying plants to see your history here
+              {t('historyScreen.emptyState.message')}
             </Text>
           </View>
         )}
@@ -170,7 +180,9 @@ export default function HistoryScreen() {
                         </View>
                         
                         <View className="flex-row items-center mb-2">
-                          <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-gray-600">Confidence: </Text>
+                          <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-gray-600">
+                            {t('historyScreen.confidence')}: 
+                          </Text>
                           <Text style={{ fontFamily: 'Poppins-Bold' }} className={`${getConfidenceColor(item.confidence)}`}>
                             {item.confidence}%
                           </Text>
@@ -196,8 +208,8 @@ export default function HistoryScreen() {
                             item.confidence >= 80 ? 'text-green-800' : 
                             item.confidence >= 60 ? 'text-yellow-800' : 'text-red-800'
                           }`}>
-                            {item.confidence >= 80 ? 'High Confidence' : 
-                             item.confidence >= 60 ? 'Medium Confidence' : 'Low Confidence'}
+                            {item.confidence >= 80 ? t('historyScreen.highConfidence') : 
+                             item.confidence >= 60 ? t('historyScreen.mediumConfidence') : t('historyScreen.lowConfidence')}
                           </Text>
                         </View>
                       </View>

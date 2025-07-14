@@ -2,12 +2,14 @@ import { Tabs, useRouter } from 'expo-router';
 import { useEffect } from 'react';
 import { View, ActivityIndicator, StyleSheet } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { useTranslation } from 'react-i18next';
 
 import { CustomHeader } from '../../components/CustomHeader';
 import { ProfileHeader } from '../../components/ProfileHeader';
 import { useAuthStore } from '../../store/authStore';
 
 export default function TabLayout() {
+  const { t } = useTranslation();
   const { isAuthenticated, isInitialized } = useAuthStore();
   const router = useRouter();
 
@@ -67,8 +69,8 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Identify',
-          tabBarLabel: 'Identify',
+          title: t('identify'),
+          tabBarLabel: t('identify'),
           tabBarIcon: ({ color, focused }) => (
             <Ionicons name={focused ? "search" : "search-outline"} size={22} color={color} />
           ),
@@ -79,8 +81,8 @@ export default function TabLayout() {
       <Tabs.Screen
         name="community"
         options={{
-          title: 'Community',
-          tabBarLabel: 'Community',
+          title: t('conservation'),
+          tabBarLabel: t('conservation'),
           tabBarIcon: ({ color, focused }) => (
             <Ionicons name={focused ? "people" : "people-outline"} size={22} color={color} />
           ),
@@ -91,8 +93,8 @@ export default function TabLayout() {
       <Tabs.Screen
         name="two"
         options={{
-          title: 'History',
-          tabBarLabel: 'History',
+          title: t('history'),
+          tabBarLabel: t('history'),
           tabBarIcon: ({ color, focused }) => (
             <Ionicons name={focused ? "time" : "time-outline"} size={22} color={color} />
           ),
@@ -103,8 +105,8 @@ export default function TabLayout() {
       <Tabs.Screen
         name="blog"
         options={{
-          title: 'Blog',
-          tabBarLabel: 'Conservation',
+          title: t('blogs'),
+          tabBarLabel: t('conservation'),
           tabBarIcon: ({ color, focused }) => (
             <Ionicons name={focused ? "leaf" : "leaf-outline"} size={22} color={color} />
           ),

@@ -1,5 +1,6 @@
 import 'react-native-url-polyfill/auto';
 import '../global.css';
+import '../i18n/config'; // Initialize i18n
 
 import { Stack } from 'expo-router';
 import { useEffect, useState } from 'react';

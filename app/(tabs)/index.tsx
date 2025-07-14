@@ -5,9 +5,11 @@ import * as ImagePicker from 'expo-image-picker';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useHistoryStore } from '../../store/historyStore';
 import { FeedbackModal } from '../../components/FeedbackModal';
+import { useTranslation } from 'react-i18next';
 
 export default function Home() {
   const router = useRouter();
+  const { t } = useTranslation();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [predictionResult, setPredictionResult] = useState<{
@@ -22,8 +24,8 @@ export default function Home() {
     
     if (cameraStatus !== 'granted' || mediaStatus !== 'granted') {
       Alert.alert(
-        'Permissions Required',
-        'Sorry, we need camera and media library permissions to make this work!'
+        t('permissions.required'),
+        t('permissions.message')
       );
       return false;
     }
@@ -64,7 +66,7 @@ export default function Home() {
 
   const makePrediction = async () => {
     if (!selectedImage) {
-      Alert.alert('No Image', 'Please select an image first');
+      Alert.alert(t('prediction.noImage.title'), t('prediction.noImage.message'));
       return;
     }
     
@@ -129,8 +131,8 @@ export default function Home() {
     } catch (error) {
       console.error('Error making prediction:', error);
       Alert.alert(
-        'Prediction Error',
-        'Failed to make prediction. Please try again.'
+        t('prediction.error.title'),
+        t('prediction.error.message')
       );
     } finally {
       setIsLoading(false);
@@ -151,20 +153,8 @@ export default function Home() {
           contentContainerStyle={{ padding: 20 }}
           showsVerticalScrollIndicator={false}
         >
-          {/* <Text className="text-3xl font-bold text-gray-800 mb-8 text-center">Welcome to Misala!</Text>
-          
-          {user && (
-            <View className="items-center mb-8 p-6 bg-white rounded-lg shadow-sm">
-              <Text className="text-xl font-semibold text-gray-800 mb-2">Hello, {user.name}!</Text>
-              <Text className="text-base text-gray-600">{user.email}</Text>
-            </View>
-          )} */}
-
         {/* Image Picker Section */}
         <View className="mb-8">
-          {/* <Text className="text-lg font-semibold text-gray-800 mb-4 text-center">
-            Select an image for prediction
-          </Text> */}
           
           <View className="flex-row justify-evenly space-x-4 mb-6">
             <TouchableOpacity
@@ -172,7 +162,7 @@ export default function Home() {
               className="bg-primary px-6 py-3 rounded-lg shadow-sm flex-row items-center"
             >
               <MaterialIcons name="photo-library" size={24} color="white" />
-              <Text style={{ fontFamily: 'Poppins-Bold' }} className="text-white ml-2">Gallery</Text>
+              <Text style={{ fontFamily: 'Poppins-Bold' }} className="text-white ml-2">{t('gallery')}</Text>
             </TouchableOpacity>
             
             <TouchableOpacity
@@ -180,7 +170,7 @@ export default function Home() {
               className="bg-primary px-6 py-3 rounded-lg shadow-sm flex-row items-center"
             >
               <MaterialIcons name="camera-alt" size={24} color="white" />
-              <Text style={{ fontFamily: 'Poppins-Bold' }} className="text-white ml-2">Camera</Text>
+              <Text style={{ fontFamily: 'Poppins-Bold' }} className="text-white ml-2">{t('camera')}</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -202,7 +192,7 @@ export default function Home() {
                 {isLoading ? (
                   <ActivityIndicator size="small" color="white" />
                 ) : (
-                  <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-white">Identify</Text>
+                  <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-white">{t('identify')}</Text>
                 )}
               </TouchableOpacity>
               
@@ -211,7 +201,7 @@ export default function Home() {
                 disabled={isLoading}
                 className={`bg-red-500 px-6 py-3 rounded-lg shadow-sm ${isLoading ? 'opacity-50' : ''}`}
               >
-                <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-white">Remove</Text>
+                <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-white">{t('remove')}</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -222,19 +212,19 @@ export default function Home() {
           <View className="mb-8 items-center">
             <View className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 w-full max-w-sm">
               <Text style={{ fontFamily: 'Poppins-Bold' }} className="text-xl text-gray-800 mb-4 text-center">
-                Prediction Result
+                {t('prediction.result.title')}
               </Text>
               
               <View className="space-y-3">
                 <View className="flex-row justify-between items-center">
-                  <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-gray-600">Plant:</Text>
+                  <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-gray-600">{t('prediction.result.plant')}:</Text>
                   <Text style={{ fontFamily: 'Poppins-Bold' }} className="text-lg text-primary">
                     {predictionResult.class}
                   </Text>
                 </View>
                 
                 <View className="flex-row justify-between items-center">
-                  <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-gray-600">Confidence:</Text>
+                  <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-gray-600">{t('prediction.result.confidence')}:</Text>
                   <Text style={{ fontFamily: 'Poppins-Bold' }} className="text-lg text-gray-800">
                     {predictionResult.confidence}%
                   </Text>
@@ -244,10 +234,10 @@ export default function Home() {
               <View className="mt-4 bg-gray-100 rounded-lg p-3">
                 <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-sm text-gray-600 text-center">
                   {predictionResult.confidence >= 80 
-                    ? "High confidence prediction" 
+                    ? t('prediction.result.highConfidence') 
                     : predictionResult.confidence >= 60 
-                    ? "Moderate confidence prediction" 
-                    : "Low confidence prediction"}
+                    ? t('prediction.result.moderateConfidence') 
+                    : t('prediction.result.lowConfidence')}
                 </Text>
               </View>
 
@@ -261,7 +251,7 @@ export default function Home() {
               >
                 <MaterialIcons name="info" size={20} color="#008000" />
                 <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-primary ml-2">
-                  Learn More
+                  {t('prediction.result.learnMore')}
                 </Text>
               </TouchableOpacity>
 
@@ -272,7 +262,7 @@ export default function Home() {
               >
                 <MaterialIcons name="report-problem" size={20} color="#ea580c" />
                 <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-orange-600 ml-2">
-                  Report Issue
+                  {t('prediction.result.reportIssue')}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -294,10 +284,10 @@ export default function Home() {
         <View className="items-center">
           <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-600 text-center leading-6 w-72">
             {predictionResult 
-              ? `The plant has been identified as ${predictionResult.class} with ${predictionResult.confidence}% confidence.`
+              ? `${t('prediction.instructions.plantIdentified')} ${predictionResult.class} ${t('prediction.instructions.confidence')} ${predictionResult.confidence}%.`
               : selectedImage 
-              ? "Great! Now you can identify your selected image." 
-              : "Choose an image from your gallery or take a photo to get started."
+              ? t('prediction.instructions.imageSelected') 
+              : t('prediction.instructions.chooseImage')
             }
           </Text>
         </View>
