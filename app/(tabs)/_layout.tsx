@@ -81,8 +81,8 @@ export default function TabLayout() {
       <Tabs.Screen
         name="community"
         options={{
-          title: t('conservation'),
-          tabBarLabel: t('conservation'),
+          title: t('community'),
+          tabBarLabel: t('community'),
           tabBarIcon: ({ color, focused }) => (
             <Ionicons name={focused ? "people" : "people-outline"} size={22} color={color} />
           ),

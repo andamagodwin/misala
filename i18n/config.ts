@@ -133,6 +133,21 @@ const resources = {
         message: 'Sorry, we need camera and media library permissions to make this work!',
       },
       
+      // History Screen
+      historyScreen: {
+        identifications_one: 'identification',
+        identifications_other: 'identifications',
+        loading: 'Loading your history...',
+        confidence: 'Confidence',
+        highConfidence: 'High Confidence',
+        mediumConfidence: 'Medium Confidence',
+        lowConfidence: 'Low Confidence',
+        emptyState: {
+          title: 'No Plant Identifications Yet',
+          message: 'Start identifying plants and they will appear here!',
+        },
+      },
+      
       // Settings
       language: 'Language',
       changeLanguage: 'Change Language',
@@ -144,6 +159,7 @@ const resources = {
     translation: {
       // Navigation
       home: 'Nyumbani',
+      community: 'Jumuiya',
       history: 'Historia',
       conservation: 'Uhifadhi',
       
@@ -267,6 +283,21 @@ const resources = {
       permissions: {
         required: 'Ruhusa Zinahitajika',
         message: 'Samahani, tunahitaji ruhusa za kamera na maktaba ya media ili hii ifanye kazi!',
+      },
+      
+      // History Screen
+      historyScreen: {
+        identifications_one: 'utambuzi',
+        identifications_other: 'utambuzi',
+        loading: 'Inapakia historia yako...',
+        confidence: 'Uhakika',
+        highConfidence: 'Uhakika wa Juu',
+        mediumConfidence: 'Uhakika wa Kati',
+        lowConfidence: 'Uhakika wa Chini',
+        emptyState: {
+          title: 'Hakuna Utambuzi wa Mimea Bado',
+          message: 'Anza kutambua mimea na itaonekana hapa!',
+        },
       },
       
       // Settings
