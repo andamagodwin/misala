@@ -75,7 +75,7 @@ export default function HistoryScreen() {
         <Stack.Screen options={{ title: 'History' }} />
         <View className="flex-1 justify-center items-center p-5 bg-white">
           <MaterialIcons name="history" size={80} color="#ccc" />
-          <Text className="text-xl font-semibold text-gray-600 mt-4">Please login to view your history</Text>
+          <Text style={{ fontFamily: 'Poppins-SemiBold' }} className="text-xl text-gray-600 mt-4">Please login to view your history</Text>
         </View>
       </>
     );
@@ -88,17 +88,17 @@ export default function HistoryScreen() {
         {/* Header */}
         <View className="p-5 pb-3">
           <View className="flex-row justify-between items-center">
-            <Text className="text-2xl font-bold text-gray-800">Plant History</Text>
+            <Text style={{ fontFamily: 'Poppins-Bold' }} className="text-2xl text-gray-800">Plant History</Text>
             {history.length > 0 && (
               <TouchableOpacity
                 onPress={handleClearAll}
                 className="bg-red-500 px-4 py-2 rounded-lg"
               >
-                <Text className="text-white font-semibold">Clear All</Text>
+                <Text style={{ fontFamily: 'Poppins-SemiBold' }} className="text-white">Clear All</Text>
               </TouchableOpacity>
             )}
           </View>
-          <Text className="text-gray-600 mt-1">
+          <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-600 mt-1">
             {history.length} identification{history.length !== 1 ? 's' : ''}
           </Text>
         </View>
@@ -106,7 +106,7 @@ export default function HistoryScreen() {
         {/* Error Display */}
         {error && (
           <View className="mx-5 mb-3 p-3 bg-red-100 border border-red-300 rounded-lg">
-            <Text className="text-red-700">{error}</Text>
+            <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-red-700">{error}</Text>
           </View>
         )}
 
@@ -114,7 +114,7 @@ export default function HistoryScreen() {
         {isLoading && history.length === 0 && (
           <View className="flex-1 justify-center items-center">
             <ActivityIndicator size="large" color="#008000" />
-            <Text className="text-gray-600 mt-4">Loading your history...</Text>
+            <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-600 mt-4">Loading your history...</Text>
           </View>
         )}
 
@@ -122,15 +122,12 @@ export default function HistoryScreen() {
         {!isLoading && history.length === 0 && (
           <View className="flex-1 justify-center items-center p-5">
             <MaterialIcons name="history" size={80} color="#ccc" />
-            <Text className="text-xl font-semibold text-gray-600 mt-4 text-center">
+            <Text style={{ fontFamily: 'Poppins-SemiBold' }} className="text-xl text-gray-600 mt-4 text-center">
               No plant identifications yet
             </Text>
-            <Text className="text-gray-500 mt-2 text-center">
+            <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-500 mt-2 text-center">
               Start identifying plants to see your history here
             </Text>
-
-
-
           </View>
         )}
 
@@ -157,7 +154,7 @@ export default function HistoryScreen() {
                       {/* Plant Details */}
                       <View className="flex-1">
                         <View className="flex-row justify-between items-start mb-2">
-                          <Text className="text-lg font-bold text-gray-800 flex-1 mr-2">
+                          <Text style={{ fontFamily: 'Poppins-Bold' }} className="text-lg text-gray-800 flex-1 mr-2">
                             {item.plant_name}
                           </Text>
                           <TouchableOpacity
@@ -169,15 +166,15 @@ export default function HistoryScreen() {
                         </View>
                         
                         <View className="flex-row items-center mb-2">
-                          <Text className="text-gray-600 font-medium">Confidence: </Text>
-                          <Text className={`font-bold ${getConfidenceColor(item.confidence)}`}>
+                          <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-gray-600">Confidence: </Text>
+                          <Text style={{ fontFamily: 'Poppins-Bold' }} className={`${getConfidenceColor(item.confidence)}`}>
                             {item.confidence}%
                           </Text>
                         </View>
                         
                         <View className="flex-row items-center">
                           <MaterialIcons name="schedule" size={16} color="#6b7280" />
-                          <Text className="text-sm text-gray-500 ml-1">
+                          <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-sm text-gray-500 ml-1">
                             {formatDate(item.created_at)}
                           </Text>
                         </View>
@@ -191,7 +188,7 @@ export default function HistoryScreen() {
                           item.confidence >= 80 ? 'bg-green-100' : 
                           item.confidence >= 60 ? 'bg-yellow-100' : 'bg-red-100'
                         }`}>
-                          <Text className={`text-xs font-medium ${
+                          <Text style={{ fontFamily: 'Poppins-Medium' }} className={`text-xs ${
                             item.confidence >= 80 ? 'text-green-800' : 
                             item.confidence >= 60 ? 'text-yellow-800' : 'text-red-800'
                           }`}>
