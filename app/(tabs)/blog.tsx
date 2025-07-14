@@ -7,12 +7,15 @@ import {
   Alert, 
   ActivityIndicator, 
   RefreshControl, 
-  TextInput 
+  TextInput,
+  Linking 
 } from 'react-native';
 import { useState, useCallback, useEffect } from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
+import * as DocumentPicker from 'expo-document-picker';
 import { useBlogStore } from '../../store/blogStore';
 import { useAuthStore } from '../../store/authStore';
+import { useGuidebookStore } from '../../store/guidebookStore';
 import TabSwitch from '../../components/TabSwitch';
 
 export default function BlogScreen() {
@@ -30,6 +33,17 @@ export default function BlogScreen() {
     setSearchQuery,
     clearError 
   } = useBlogStore();
+
+  const {
+    guidebooks,
+    isLoading: guidebooksLoading,
+    isUploading,
+    error: guidebookError,
+    fetchGuidebooks,
+    uploadGuidebook,
+    downloadGuidebook,
+    clearError: clearGuidebookError
+  } = useGuidebookStore();
   
   const { user } = useAuthStore();
   
@@ -45,9 +59,18 @@ export default function BlogScreen() {
   const [blogCategory, setBlogCategory] = useState('Medicine');
   const [isSubmitting, setIsSubmitting] = useState(false);
   
+  // Guidebook upload state
+  const [showUploadForm, setShowUploadForm] = useState(false);
+  const [guidebookTitle, setGuidebookTitle] = useState('');
+  const [guidebookDescription, setGuidebookDescription] = useState('');
+  const [guidebookCategory, setGuidebookCategory] = useState('Traditional Medicine');
+  const [guidebookTags, setGuidebookTags] = useState('');
+  const [selectedFile, setSelectedFile] = useState<any>(null);
+  
   useEffect(() => {
     fetchBlogs();
-  }, [fetchBlogs]);
+    fetchGuidebooks();
+  }, [fetchBlogs, fetchGuidebooks]);
 
   useEffect(() => {
     if (error) {
@@ -56,11 +79,21 @@ export default function BlogScreen() {
     }
   }, [error, clearError]);
 
+  useEffect(() => {
+    if (guidebookError) {
+      Alert.alert('Guidebook Error', guidebookError);
+      clearGuidebookError();
+    }
+  }, [guidebookError, clearGuidebookError]);
+
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
     await fetchBlogs();
+    if (activeTab === 'center') {
+      await fetchGuidebooks();
+    }
     setRefreshing(false);
-  }, [fetchBlogs]);
+  }, [fetchBlogs, fetchGuidebooks, activeTab]);
 
   const handleSearch = useCallback((query: string) => {
     setSearchQuery(query);
@@ -123,6 +156,91 @@ export default function BlogScreen() {
       Alert.alert('Error', 'Failed to create blog post. Please try again.');
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  // Guidebook functions
+  const handlePickFile = async () => {
+    try {
+      const result = await DocumentPicker.getDocumentAsync({
+        type: ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'],
+        copyToCacheDirectory: true,
+      });
+
+      if (!result.canceled && result.assets?.[0]) {
+        const file = result.assets[0];
+        
+        // Check file size (limit to 10MB)
+        if (file.size && file.size > 10 * 1024 * 1024) {
+          Alert.alert('Error', 'File size must be less than 10MB');
+          return;
+        }
+
+        setSelectedFile(file);
+        Alert.alert('File Selected', `Selected: ${file.name}`);
+      }
+    } catch (error) {
+      console.error('Error picking file:', error);
+      Alert.alert('Error', 'Failed to pick file. Please try again.');
+    }
+  };
+
+  const handleUploadGuidebook = async () => {
+    if (!user) {
+      Alert.alert('Error', 'Please login to upload guidebooks');
+      return;
+    }
+
+    if (!selectedFile) {
+      Alert.alert('Error', 'Please select a file to upload');
+      return;
+    }
+
+    if (!guidebookTitle.trim()) {
+      Alert.alert('Error', 'Please enter a title for the guidebook');
+      return;
+    }
+
+    if (!guidebookDescription.trim()) {
+      Alert.alert('Error', 'Please enter a description for the guidebook');
+      return;
+    }
+
+    try {
+      const tags = guidebookTags.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0);
+
+      await uploadGuidebook(
+        selectedFile,
+        guidebookTitle.trim(),
+        guidebookDescription.trim(),
+        guidebookCategory,
+        tags,
+        user.name || 'Anonymous',
+        user.$id
+      );
+
+      // Reset form
+      setGuidebookTitle('');
+      setGuidebookDescription('');
+      setGuidebookCategory('Traditional Medicine');
+      setGuidebookTags('');
+      setSelectedFile(null);
+      setShowUploadForm(false);
+
+      Alert.alert('Success', 'Guidebook uploaded successfully!');
+    } catch (error) {
+      console.error('Error uploading guidebook:', error);
+      Alert.alert('Error', 'Failed to upload guidebook. Please try again.');
+    }
+  };
+
+  const handleDownloadGuidebook = async (guidebookId: string, fileId: string, fileName: string) => {
+    try {
+      const downloadUrl = await downloadGuidebook(guidebookId, fileId);
+      await Linking.openURL(downloadUrl);
+    } catch (error) {
+      console.error('Error downloading guidebook:', error);
+      Alert.alert('Error', 'Failed to download guidebook. Please try again.');
     }
   };
 
@@ -285,38 +403,272 @@ export default function BlogScreen() {
         Traditional Medicinal Plants Guidebooks
       </Text>
       
-      {/* Upload Section */}
-      <View className="mb-6 bg-white rounded-xl shadow-lg overflow-hidden">
-        <View className="p-4">
-          <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-gray-700 mb-3">
-            Share Knowledge
-          </Text>
-          <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-600 mb-4">
-            Upload guidebooks, research papers, or traditional knowledge documents to help preserve and share African medicinal plant wisdom.
-          </Text>
-          
-          <TouchableOpacity 
-            className="bg-primary p-4 rounded-lg items-center"
-            onPress={() => Alert.alert('Coming Soon', 'File upload feature will be available soon!')}
-          >
-            <MaterialIcons name="cloud-upload" size={24} color="white" />
-            <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-white mt-2">
-              Upload Guidebook
+      {/* Upload Form */}
+      {showUploadForm && (
+        <View className="mb-6 bg-white rounded-xl shadow-lg overflow-hidden">
+          <View className="p-4 border-b border-gray-200">
+            <Text style={{ fontFamily: 'Poppins-Bold' }} className="text-lg text-gray-800">
+              Upload New Guidebook
             </Text>
-          </TouchableOpacity>
+          </View>
+          <View className="p-4">
+            {/* File Selection */}
+            <View className="mb-4">
+              <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-gray-700 mb-2">
+                Select File (PDF, DOC, DOCX - Max 10MB)
+              </Text>
+              <TouchableOpacity
+                onPress={handlePickFile}
+                className="border-2 border-dashed border-gray-300 rounded-lg p-4 items-center"
+              >
+                <MaterialIcons name="cloud-upload" size={32} color="#6b7280" />
+                <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-gray-600 mt-2">
+                  {selectedFile ? selectedFile.name : 'Tap to select file'}
+                </Text>
+                {selectedFile && (
+                  <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-500 text-sm mt-1">
+                    Size: {(selectedFile.size / (1024 * 1024)).toFixed(2)} MB
+                  </Text>
+                )}
+              </TouchableOpacity>
+            </View>
+
+            {/* Title Input */}
+            <View className="mb-4">
+              <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-gray-700 mb-2">
+                Title ({guidebookTitle.length}/100)
+              </Text>
+              <TextInput
+                placeholder="Enter guidebook title..."
+                value={guidebookTitle}
+                onChangeText={setGuidebookTitle}
+                maxLength={100}
+                className="border border-gray-300 rounded-lg px-3 py-3 text-base"
+                style={{ fontFamily: 'Poppins-Regular' }}
+              />
+            </View>
+
+            {/* Description Input */}
+            <View className="mb-4">
+              <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-gray-700 mb-2">
+                Description ({guidebookDescription.length}/500)
+              </Text>
+              <TextInput
+                placeholder="Describe the guidebook content..."
+                value={guidebookDescription}
+                onChangeText={setGuidebookDescription}
+                maxLength={500}
+                multiline
+                numberOfLines={4}
+                textAlignVertical="top"
+                className="border border-gray-300 rounded-lg px-3 py-3 text-base"
+                style={{ fontFamily: 'Poppins-Regular', height: 80 }}
+              />
+            </View>
+
+            {/* Category Selection */}
+            <View className="mb-4">
+              <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-gray-700 mb-2">
+                Category
+              </Text>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mb-2">
+                {['Traditional Medicine', 'Herbal Remedies', 'Plant Identification', 'Cultivation', 'Research', 'Other'].map((cat) => (
+                  <TouchableOpacity
+                    key={cat}
+                    onPress={() => setGuidebookCategory(cat)}
+                    className={`mr-2 px-4 py-2 rounded-full ${
+                      guidebookCategory === cat ? 'bg-primary' : 'bg-gray-200'
+                    }`}
+                  >
+                    <Text
+                      style={{ fontFamily: 'Poppins-Medium' }}
+                      className={`text-sm ${guidebookCategory === cat ? 'text-white' : 'text-gray-700'}`}
+                    >
+                      {cat}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </ScrollView>
+            </View>
+
+            {/* Tags Input */}
+            <View className="mb-4">
+              <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-gray-700 mb-2">
+                Tags (comma-separated)
+              </Text>
+              <TextInput
+                placeholder="e.g. healing, herbs, traditional, africa"
+                value={guidebookTags}
+                onChangeText={setGuidebookTags}
+                className="border border-gray-300 rounded-lg px-3 py-3 text-base"
+                style={{ fontFamily: 'Poppins-Regular' }}
+              />
+            </View>
+
+            {/* Action Buttons */}
+            <View className="flex-row justify-end space-x-3">
+              <TouchableOpacity
+                onPress={() => {
+                  setShowUploadForm(false);
+                  setGuidebookTitle('');
+                  setGuidebookDescription('');
+                  setGuidebookCategory('Traditional Medicine');
+                  setGuidebookTags('');
+                  setSelectedFile(null);
+                }}
+                className="bg-gray-200 px-6 py-3 rounded-lg mr-3"
+                disabled={isUploading}
+              >
+                <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-gray-700">
+                  Cancel
+                </Text>
+              </TouchableOpacity>
+              
+              <TouchableOpacity
+                onPress={handleUploadGuidebook}
+                className="bg-primary px-6 py-3 rounded-lg flex-row items-center"
+                disabled={isUploading || !selectedFile || !guidebookTitle.trim() || !guidebookDescription.trim()}
+              >
+                {isUploading ? (
+                  <ActivityIndicator size="small" color="white" />
+                ) : (
+                  <MaterialIcons name="cloud-upload" size={16} color="white" />
+                )}
+                <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-white ml-2">
+                  {isUploading ? 'Uploading...' : 'Upload'}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
-      </View>
+      )}
       
-      {/* Placeholder for existing guidebooks */}
-      <View className="items-center py-8">
-        <MaterialIcons name="library-books" size={48} color="#9ca3af" />
-        <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-gray-500 mt-2">
-          No guidebooks uploaded yet
-        </Text>
-        <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-400 text-center mt-1">
-          Be the first to share traditional knowledge!
-        </Text>
-      </View>
+      {/* Upload Section */}
+      {!showUploadForm && (
+        <View className="mb-6 bg-white rounded-xl shadow-lg overflow-hidden">
+          <View className="p-4">
+            <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-gray-700 mb-3">
+              Share Knowledge
+            </Text>
+            <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-600 mb-4">
+              Upload guidebooks, research papers, or traditional knowledge documents to help preserve and share African medicinal plant wisdom.
+            </Text>
+            
+            <TouchableOpacity 
+              className="bg-primary p-4 rounded-lg items-center"
+              onPress={() => {
+                if (!user) {
+                  Alert.alert('Authentication Required', 'Please login to upload guidebooks');
+                  return;
+                }
+                setShowUploadForm(true);
+              }}
+            >
+              <MaterialIcons name="cloud-upload" size={24} color="white" />
+              <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-white mt-2">
+                Upload Guidebook
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
+      
+      {/* Loading State */}
+      {guidebooksLoading && guidebooks.length === 0 && (
+        <View className="items-center py-8">
+          <ActivityIndicator size="large" color="#008000" />
+          <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-600 mt-4">
+            Loading guidebooks...
+          </Text>
+        </View>
+      )}
+      
+      {/* Guidebooks List */}
+      {guidebooks.map((guidebook) => (
+        <View key={guidebook.$id} className="mb-6 bg-white rounded-xl shadow-lg overflow-hidden">
+          <View className="p-4">
+            {/* Header */}
+            <View className="flex-row items-start justify-between mb-3">
+              <View className="flex-1">
+                <Text style={{ fontFamily: 'Poppins-Bold' }} className="text-lg text-gray-800 mb-1">
+                  {guidebook.title}
+                </Text>
+                <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-600 mb-2">
+                  {guidebook.description}
+                </Text>
+              </View>
+              <View className={`px-3 py-1 rounded-full bg-green-100`}>
+                <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-xs text-green-800">
+                  {guidebook.category}
+                </Text>
+              </View>
+            </View>
+
+            {/* File Info */}
+            <View className="flex-row items-center mb-3">
+              <MaterialIcons name="description" size={16} color="#6b7280" />
+              <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-500 text-sm ml-1">
+                {guidebook.fileName} • {(guidebook.fileSize / (1024 * 1024)).toFixed(2)} MB
+              </Text>
+            </View>
+
+            {/* Tags */}
+            {guidebook.tags && guidebook.tags.length > 0 && (
+              <View className="flex-row flex-wrap mb-3">
+                {guidebook.tags.map((tag, index) => (
+                  <View key={index} className="bg-gray-100 px-2 py-1 rounded-md mr-2 mb-1">
+                    <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-600 text-xs">
+                      #{tag}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+            )}
+
+            {/* Metadata */}
+            <View className="flex-row items-center justify-between mb-4">
+              <View>
+                <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-gray-700 text-sm">
+                  Uploaded by {guidebook.uploaderName}
+                </Text>
+                <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-500 text-xs">
+                  {formatDate(guidebook.createdAt)}
+                </Text>
+              </View>
+              <View className="flex-row items-center">
+                <MaterialIcons name="download" size={16} color="#6b7280" />
+                <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-500 text-sm ml-1">
+                  {guidebook.downloadCount} downloads
+                </Text>
+              </View>
+            </View>
+
+            {/* Download Button */}
+            <TouchableOpacity
+              onPress={() => handleDownloadGuidebook(guidebook.$id, guidebook.fileId, guidebook.fileName)}
+              className="bg-primary p-3 rounded-lg flex-row items-center justify-center"
+            >
+              <MaterialIcons name="download" size={20} color="white" />
+              <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-white ml-2">
+                Download Guidebook
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      ))}
+      
+      {/* Empty State */}
+      {guidebooks.length === 0 && !guidebooksLoading && (
+        <View className="items-center py-8">
+          <MaterialIcons name="library-books" size={48} color="#9ca3af" />
+          <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-gray-500 mt-2">
+            No guidebooks uploaded yet
+          </Text>
+          <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-400 text-center mt-1">
+            Be the first to share traditional knowledge!
+          </Text>
+        </View>
+      )}
     </View>
   );
 
@@ -643,6 +995,8 @@ export default function BlogScreen() {
           className="flex-1"
           refreshControl={
             activeTab === 'right' ? (
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            ) : activeTab === 'center' ? (
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             ) : undefined
           }

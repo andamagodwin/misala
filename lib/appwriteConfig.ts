@@ -1,4 +1,4 @@
-import {Client,Account} from 'react-native-appwrite';
+import {Client,Account,Storage} from 'react-native-appwrite';
 import {Platform} from 'react-native';
 
 const endpoint = process.env.EXPO_PUBLIC_APPWRITE_ENDPOINT;
@@ -22,6 +22,7 @@ if (!bundleId) {
 
 let client: Client;
 let account: Account;
+let storage: Storage;
 
 try {
     client = new Client()
@@ -38,10 +39,11 @@ try {
     }
 
     account = new Account(client);
+    storage = new Storage(client);
     console.log('Appwrite client initialized successfully');
 } catch (error) {
     console.error('Failed to initialize Appwrite client:', error);
     throw error;
 }
 
-export {client, account};
+export {client, account, storage};
