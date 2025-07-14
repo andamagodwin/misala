@@ -74,7 +74,7 @@ export default function LoginScreen() {
       </View>
 
       <View>
-              <Text style={{ fontFamily: 'Poppins-Bold' }} className="text-3xl text-center mb-3 text-gray-800">Welcome Back! Glad to See you, Again!</Text>
+              <Text style={{ fontFamily: 'Poppins-Bold' }} className="text-3xl text-start p-2 mb-3 text-gray-800">Welcome Back! Glad to See you, Again!</Text>
       </View>
       <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-base text-center mb-8 text-gray-600">Sign in to your account</Text>
 
