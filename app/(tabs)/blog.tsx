@@ -399,9 +399,7 @@ export default function BlogScreen() {
 
   const renderGuidebooks = () => (
     <View className="p-5">
-      <Text style={{ fontFamily: 'Poppins-Bold' }} className="text-xl text-gray-800 mb-4">
-        Traditional Medicinal Plants Guidebooks
-      </Text>
+      
       
       {/* Upload Form */}
       {showUploadForm && (
