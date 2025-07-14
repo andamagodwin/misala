@@ -121,9 +121,13 @@ export default function HistoryScreen() {
         {/* Empty State */}
         {!isLoading && history.length === 0 && (
           <View className="flex-1 justify-center items-center p-5">
-            <MaterialIcons name="history" size={80} color="#ccc" />
-            <Text style={{ fontFamily: 'Poppins-SemiBold' }} className="text-xl text-gray-600 mt-4 text-center">
-              No plant identifications yet
+            <Image 
+              source={require('../../assets/time-flies.png')} 
+              className="w-48 h-48 mb-4"
+              resizeMode="contain"
+            />
+            <Text style={{ fontFamily: 'Poppins-SemiBold' }} className="text-xl text-black mt-4 text-center">
+              You have not scanned anything
             </Text>
             <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-500 mt-2 text-center">
               Start identifying plants to see your history here

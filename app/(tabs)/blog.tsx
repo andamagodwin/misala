@@ -342,9 +342,7 @@ export default function BlogScreen() {
 
   const renderSustainableHarvestingGuides = () => (
     <View className="p-5">
-      <Text style={{ fontFamily: 'Poppins-Bold' }} className="text-xl text-gray-800 mb-4">
-        Sustainable Harvesting Guides
-      </Text>
+      
       
       {/* Aloe Vera Guide */}
       <View className="mb-6 bg-white rounded-xl shadow-lg overflow-hidden">
