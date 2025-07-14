@@ -104,9 +104,9 @@ export default function TabLayout() {
         name="blog"
         options={{
           title: 'Blog',
-          tabBarLabel: 'Blog',
+          tabBarLabel: 'Conservation',
           tabBarIcon: ({ color, focused }) => (
-            <Ionicons name={focused ? "book" : "book-outline"} size={22} color={color} />
+            <Ionicons name={focused ? "leaf" : "leaf-outline"} size={22} color={color} />
           ),
           headerLeft: () => <ProfileHeader />,
           headerRight: () => <CustomHeader />,
