@@ -118,7 +118,7 @@ export default function AddRemedyScreen() {
               {isSubmitting ? (
                 <ActivityIndicator size="small" color="#008000" />
               ) : (
-                <Text className="text-primary font-semibold">Share</Text>
+                <Text style={{ fontFamily: 'Poppins-SemiBold' }} className="text-primary">Share</Text>
               )}
             </TouchableOpacity>
           )
@@ -132,36 +132,39 @@ export default function AddRemedyScreen() {
         <ScrollView className="flex-1 p-5">
           {/* Title */}
           <View className="mb-6">
-            <Text className="text-lg font-semibold text-gray-800 mb-2">Title *</Text>
+            <Text style={{ fontFamily: 'Poppins-SemiBold' }} className="text-lg text-gray-800 mb-2">Title *</Text>
             <TextInput
               value={formData.title}
               onChangeText={(text) => setFormData({ ...formData, title: text })}
               placeholder="e.g., Ginger Tea for Cold Relief"
               className="border border-gray-300 rounded-lg px-4 py-4 text-gray-800 text-base"
+              style={{ fontFamily: 'Poppins-Regular' }}
               editable={!isSubmitting}
             />
           </View>
 
           {/* Plant Name */}
           <View className="mb-6">
-            <Text className="text-lg font-semibold text-gray-800 mb-2">Plant Name *</Text>
+            <Text style={{ fontFamily: 'Poppins-SemiBold' }} className="text-lg text-gray-800 mb-2">Plant Name *</Text>
             <TextInput
               value={formData.plant_name}
               onChangeText={(text) => setFormData({ ...formData, plant_name: text })}
               placeholder="e.g., Ginger"
               className="border border-gray-300 rounded-lg px-4 py-4 text-gray-800 text-base"
+              style={{ fontFamily: 'Poppins-Regular' }}
               editable={!isSubmitting}
             />
           </View>
 
           {/* Description */}
           <View className="mb-6">
-            <Text className="text-lg font-semibold text-gray-800 mb-2">Description *</Text>
+            <Text style={{ fontFamily: 'Poppins-SemiBold' }} className="text-lg text-gray-800 mb-2">Description *</Text>
             <TextInput
               value={formData.description}
               onChangeText={(text) => setFormData({ ...formData, description: text })}
               placeholder="Brief description of what this remedy treats"
               className="border border-gray-300 rounded-lg px-4 py-4 text-gray-800 text-base"
+              style={{ fontFamily: 'Poppins-Regular' }}
               multiline
               numberOfLines={4}
               textAlignVertical="top"
@@ -171,12 +174,13 @@ export default function AddRemedyScreen() {
 
           {/* Ingredients */}
           <View className="mb-6">
-            <Text className="text-lg font-semibold text-gray-800 mb-2">Ingredients *</Text>
+            <Text style={{ fontFamily: 'Poppins-SemiBold' }} className="text-lg text-gray-800 mb-2">Ingredients *</Text>
             <TextInput
               value={formData.ingredients}
               onChangeText={(text) => setFormData({ ...formData, ingredients: text })}
               placeholder="List all ingredients needed"
               className="border border-gray-300 rounded-lg px-4 py-4 text-gray-800 text-base"
+              style={{ fontFamily: 'Poppins-Regular' }}
               multiline
               numberOfLines={4}
               textAlignVertical="top"
@@ -186,12 +190,13 @@ export default function AddRemedyScreen() {
 
           {/* Preparation Method */}
           <View className="mb-6">
-            <Text className="text-lg font-semibold text-gray-800 mb-2">Preparation Method *</Text>
+            <Text style={{ fontFamily: 'Poppins-SemiBold' }} className="text-lg text-gray-800 mb-2">Preparation Method *</Text>
             <TextInput
               value={formData.preparation_method}
               onChangeText={(text) => setFormData({ ...formData, preparation_method: text })}
               placeholder="Step-by-step preparation instructions"
               className="border border-gray-300 rounded-lg px-4 py-4 text-gray-800 text-base"
+              style={{ fontFamily: 'Poppins-Regular' }}
               multiline
               numberOfLines={5}
               textAlignVertical="top"
@@ -201,12 +206,13 @@ export default function AddRemedyScreen() {
 
           {/* Usage Instructions */}
           <View className="mb-6">
-            <Text className="text-lg font-semibold text-gray-800 mb-2">Usage Instructions *</Text>
+            <Text style={{ fontFamily: 'Poppins-SemiBold' }} className="text-lg text-gray-800 mb-2">Usage Instructions *</Text>
             <TextInput
               value={formData.usage_instructions}
               onChangeText={(text) => setFormData({ ...formData, usage_instructions: text })}
               placeholder="How to use this remedy"
               className="border border-gray-300 rounded-lg px-4 py-4 text-gray-800 text-base"
+              style={{ fontFamily: 'Poppins-Regular' }}
               multiline
               numberOfLines={4}
               textAlignVertical="top"
@@ -216,12 +222,13 @@ export default function AddRemedyScreen() {
 
           {/* Benefits */}
           <View className="mb-6">
-            <Text className="text-lg font-semibold text-gray-800 mb-2">Benefits (Optional)</Text>
+            <Text style={{ fontFamily: 'Poppins-SemiBold' }} className="text-lg text-gray-800 mb-2">Benefits (Optional)</Text>
             <TextInput
               value={formData.benefits}
               onChangeText={(text) => setFormData({ ...formData, benefits: text })}
               placeholder="Additional benefits of this remedy"
               className="border border-gray-300 rounded-lg px-4 py-4 text-gray-800 text-base"
+              style={{ fontFamily: 'Poppins-Regular' }}
               multiline
               numberOfLines={4}
               textAlignVertical="top"
@@ -231,12 +238,13 @@ export default function AddRemedyScreen() {
 
           {/* Cautions */}
           <View className="mb-6">
-            <Text className="text-lg font-semibold text-gray-800 mb-2">Cautions (Optional)</Text>
+            <Text style={{ fontFamily: 'Poppins-SemiBold' }} className="text-lg text-gray-800 mb-2">Cautions (Optional)</Text>
             <TextInput
               value={formData.cautions}
               onChangeText={(text) => setFormData({ ...formData, cautions: text })}
               placeholder="Any warnings or precautions"
               className="border border-gray-300 rounded-lg px-4 py-4 text-gray-800 text-base"
+              style={{ fontFamily: 'Poppins-Regular' }}
               multiline
               numberOfLines={4}
               textAlignVertical="top"
@@ -257,13 +265,13 @@ export default function AddRemedyScreen() {
             ) : (
               <>
                 <MaterialIcons name="send" size={20} color="white" />
-                <Text className="text-white font-semibold ml-2 text-base">Share Remedy</Text>
+                <Text style={{ fontFamily: 'Poppins-SemiBold' }} className="text-white ml-2 text-base">Share Remedy</Text>
               </>
             )}
           </TouchableOpacity>
 
           {/* Required Fields Note */}
-          <Text className="text-gray-500 text-sm text-center mb-8">
+          <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-500 text-sm text-center mb-8">
             Fields marked with * are required
           </Text>
         </ScrollView>
