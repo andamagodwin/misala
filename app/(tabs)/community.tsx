@@ -4,8 +4,10 @@ import { useState, useEffect, useCallback } from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRemedyStore } from '../../store/remedyStore';
 import { useAuthStore } from '../../store/authStore';
+import { useTranslation } from 'react-i18next';
 
 export default function CommunityScreen() {
+  const { t } = useTranslation();
   const { remedies, isLoading, error, fetchRemedies } = useRemedyStore();
   const { user } = useAuthStore();
   const [refreshing, setRefreshing] = useState(false);
@@ -38,7 +40,7 @@ export default function CommunityScreen() {
 
   const handleAddRemedy = () => {
     if (!user) {
-      Alert.alert('Authentication Required', 'Please login to submit a remedy');
+      Alert.alert(t('communityScreen.authRequired'), t('communityScreen.loginToSubmit'));
       return;
     }
     router.push('../add-remedy');
@@ -70,9 +72,9 @@ export default function CommunityScreen() {
         <View className="bg-white p-5 pb-3 border-b border-gray-200">
           <View className="flex-row justify-between items-center">
             <View>
-              <Text style={{ fontFamily: 'Poppins-Bold' }} className="text-2xl text-gray-800">Plant Remedies</Text>
+              <Text style={{ fontFamily: 'Poppins-Bold' }} className="text-2xl text-gray-800">{t('communityScreen.title')}</Text>
               <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-600 mt-1">
-                {remedies.length} remedies shared by the community
+                {remedies.length} {t('communityScreen.subtitle')}
               </Text>
             </View>
             <TouchableOpacity
@@ -95,7 +97,7 @@ export default function CommunityScreen() {
         {isLoading && remedies.length === 0 && (
           <View className="flex-1 justify-center items-center">
             <ActivityIndicator size="large" color="#008000" />
-            <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-600 mt-4">Loading remedies...</Text>
+            <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-600 mt-4">{t('communityScreen.loading')}</Text>
           </View>
         )}
 
@@ -104,16 +106,16 @@ export default function CommunityScreen() {
           <View className="flex-1 justify-center items-center p-5">
             <MaterialIcons name="eco" size={80} color="#ccc" />
             <Text style={{ fontFamily: 'Poppins-Bold' }} className="text-xl text-gray-600 mt-4 text-center">
-              No remedies shared yet
+              {t('communityScreen.noRemedies')}
             </Text>
             <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-500 mt-2 text-center">
-              Be the first to share a plant remedy with the community
+              {t('communityScreen.firstToShare')}
             </Text>
             <TouchableOpacity
               onPress={handleAddRemedy}
               className="bg-primary px-6 py-3 rounded-lg mt-4"
             >
-              <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-white">Share a Remedy</Text>
+              <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-white">{t('shareRemedy')}</Text>
             </TouchableOpacity>
           </View>
         )}
@@ -171,7 +173,7 @@ export default function CommunityScreen() {
                       {!isExpanded && (
                         <View className="mb-4">
                           <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-gray-800 mb-2">
-                            Ingredients:
+                            {t('communityScreen.sections.ingredients')}:
                           </Text>
                           <View className="bg-gray-50 rounded-lg p-3">
                             <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-700" numberOfLines={2}>
@@ -179,7 +181,7 @@ export default function CommunityScreen() {
                             </Text>
                             {remedy.ingredients.length > 100 && (
                               <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-500 text-xs mt-1">
-                                ... tap View More to see full details
+                                {t('communityScreen.tapViewMore')}
                               </Text>
                             )}
                           </View>
@@ -192,7 +194,7 @@ export default function CommunityScreen() {
                           {/* Ingredients */}
                           <View className="mb-4">
                             <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-gray-800 mb-2">
-                              Ingredients:
+                              {t('communityScreen.sections.ingredients')}:
                             </Text>
                             <View className="bg-gray-50 rounded-lg p-3">
                               <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-700">
@@ -204,7 +206,7 @@ export default function CommunityScreen() {
                           {/* Preparation Method */}
                           <View className="mb-4">
                             <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-gray-800 mb-2">
-                              Preparation Method:
+                              {t('communityScreen.sections.preparationMethod')}:
                             </Text>
                             <View className="bg-gray-50 rounded-lg p-3">
                               <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-700">
@@ -216,7 +218,7 @@ export default function CommunityScreen() {
                           {/* Usage Instructions */}
                           <View className="mb-4">
                             <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-gray-800 mb-2">
-                              How to Use:
+                              {t('communityScreen.sections.howToUse')}:
                             </Text>
                             <View className="bg-gray-50 rounded-lg p-3">
                               <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-700">
@@ -229,7 +231,7 @@ export default function CommunityScreen() {
                           {remedy.benefits && (
                             <View className="mb-4">
                               <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-gray-800 mb-2">
-                                Benefits:
+                                {t('communityScreen.sections.benefits')}:
                               </Text>
                               <View className="bg-blue-50 rounded-lg p-3">
                                 <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-blue-700">
@@ -243,7 +245,7 @@ export default function CommunityScreen() {
                           {remedy.cautions && (
                             <View className="mb-4">
                               <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-gray-800 mb-2">
-                                Cautions:
+                                {t('communityScreen.sections.cautions')}:
                               </Text>
                               <View className="bg-yellow-50 rounded-lg p-3 border border-yellow-200">
                                 <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-yellow-800">
@@ -261,7 +263,7 @@ export default function CommunityScreen() {
                         className="bg-primary/10 border border-primary/20 rounded-lg p-3 mb-4 flex-row items-center justify-center active:bg-primary/20"
                       >
                         <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-primary mr-2">
-                          {isExpanded ? 'View Less' : 'View More'}
+                          {isExpanded ? t('communityScreen.viewLess') : t('communityScreen.viewMore')}
                         </Text>
                         <MaterialIcons 
                           name={isExpanded ? 'expand-less' : 'expand-more'} 

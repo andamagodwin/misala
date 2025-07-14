@@ -8,6 +8,7 @@ const resources = {
     translation: {
       // Navigation
       home: 'Home',
+      community: 'Community',
       history: 'History',
       conservation: 'Conservation',
       
@@ -112,6 +113,27 @@ const resources = {
       benefits: 'Benefits (Optional)',
       cautions: 'Cautions (Optional)',
       requiredFields: 'Fields marked with * are required',
+      
+      // Community Screen
+      communityScreen: {
+        title: 'Plant Remedies',
+        subtitle: 'remedies shared by the community',
+        loading: 'Loading remedies...',
+        noRemedies: 'No remedies shared yet',
+        firstToShare: 'Be the first to share a plant remedy with the community',
+        authRequired: 'Authentication Required',
+        loginToSubmit: 'Please login to submit a remedy',
+        viewMore: 'View More',
+        viewLess: 'View Less',
+        tapViewMore: '... tap View More to see full details',
+        sections: {
+          ingredients: 'Ingredients',
+          preparationMethod: 'Preparation Method',
+          howToUse: 'How to Use',
+          benefits: 'Benefits',
+          cautions: 'Cautions',
+        },
+      },
       
       // Common
       cancel: 'Cancel',
@@ -264,6 +286,27 @@ const resources = {
       benefits: 'Faida (Si Lazima)',
       cautions: 'Tahadhari (Si Lazima)',
       requiredFields: 'Sehemu zilizo na * ni za lazima',
+      
+      // Community Screen
+      communityScreen: {
+        title: 'Dawa za Mimea',
+        subtitle: 'dawa zilizoshirikiwa na jamii',
+        loading: 'Inapakia dawa...',
+        noRemedies: 'Hakuna dawa zilizoshirikiwa bado',
+        firstToShare: 'Kuwa wa kwanza kushiriki dawa ya mmea na jamii',
+        authRequired: 'Uthibitisho Unahitajika',
+        loginToSubmit: 'Tafadhali ingia ili kuwasilisha dawa',
+        viewMore: 'Ona Zaidi',
+        viewLess: 'Ona Kidogo',
+        tapViewMore: '... gusa Ona Zaidi ili kuona maelezo kamili',
+        sections: {
+          ingredients: 'Viungo',
+          preparationMethod: 'Njia ya Kuandaa',
+          howToUse: 'Jinsi ya Kutumia',
+          benefits: 'Faida',
+          cautions: 'Tahadhari',
+        },
+      },
       
       // Common
       cancel: 'Ghairi',
