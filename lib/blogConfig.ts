@@ -4,7 +4,7 @@ import { client } from './appwriteConfig';
 // Initialize Databases
 const databases = new Databases(client);
 
-// Constants
+// Constant
 export const BLOG_DATABASE_ID = '6871206100262eb02793'; // Use your actual database ID
 export const BLOG_COLLECTION_ID = '68720545003c7f81447c';
 export const BLOG_LIKES_COLLECTION_ID = '68720a74003763b542e9';
