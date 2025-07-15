@@ -13,6 +13,9 @@ export interface Remedy {
   ailments_treated?: string;
   cautions?: string;
   author_id: string;
+  // Image fields
+  image_id?: string;
+  image_url?: string;
   verified?: boolean;
   verified_by_id?: string;
   verified_by_name?: string;
@@ -28,7 +31,7 @@ interface RemedyState {
   fetchRemedies: () => Promise<void>;
   fetchVerifiedRemedies: () => Promise<void>;
   fetchUnverifiedRemedies: () => Promise<void>;
-  addRemedy: (remedy: Omit<Remedy, '$id' | 'author_id' | 'author_name' | 'created_at'>) => Promise<void>;
+  addRemedy: (remedy: Omit<Remedy, '$id' | 'author_id' | 'author_name' | 'created_at'> & { image?: string }) => Promise<void>;
   verifyRemedy: (remedyId: string, verifierId: string, verifierName: string) => Promise<void>;
   unverifyRemedy: (remedyId: string) => Promise<void>;
   deleteRemedy: (remedyId: string) => Promise<void>;

@@ -1,11 +1,12 @@
 import { Stack, useRouter, useFocusEffect } from 'expo-router';
-import { View, Text, ScrollView, TouchableOpacity, Alert, ActivityIndicator, RefreshControl } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Alert, ActivityIndicator, RefreshControl, Image } from 'react-native';
 import { useState, useEffect, useCallback } from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRemedyStore } from '../../store/remedyStore';
 import { useAuthStore } from '../../store/authStore';
 import { useTranslation } from 'react-i18next';
 import { UserType } from '../../lib/userProfileConfig';
+import { getImageUrl } from '../../lib/remedyConfig';
 
 export default function CommunityScreen() {
   const { t } = useTranslation();
@@ -214,7 +215,10 @@ export default function CommunityScreen() {
                   verified: remedy.verified,
                   verified_by_name: remedy.verified_by_name,
                   verified_by_id: remedy.verified_by_id,
-                  verified_at: remedy.verified_at
+                  verified_at: remedy.verified_at,
+                  image_url: remedy.image_url,
+                  image_id: remedy.image_id,
+                  constructedImageUrl: remedy.image_url ? getImageUrl(remedy.image_url) : null
                 });
                 
                 return (
@@ -268,6 +272,34 @@ export default function CommunityScreen() {
                       <Text style={{ fontFamily: 'Poppins-Bold' }} className="text-lg text-gray-800 mb-2">
                         {remedy.title || 'Untitled Remedy'}
                       </Text>
+                      
+                      {/* Plant Image */}
+                      {remedy.image_url && (
+                        <View className="mb-4">
+                          {/* <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-xs text-gray-500 mb-1">
+                            Image ID: {remedy.image_url}
+                          </Text>
+                          <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-xs text-blue-500 mb-1">
+                            Full URL: {getImageUrl(remedy.image_url)}
+                          </Text> */}
+                          <Image
+                            source={{ uri: getImageUrl(remedy.image_url) }}
+                            className="w-full h-48 rounded-lg bg-gray-200"
+                            style={{ resizeMode: 'cover' }}
+                            onError={(error) => {
+                              console.error('Image loading error:', error);
+                              console.log('Failed image URL:', getImageUrl(remedy.image_url));
+                            }}
+                            onLoad={() => {
+                              console.log('Image loaded successfully for URL:', getImageUrl(remedy.image_url));
+                            }}
+                            onLoadStart={() => {
+                              console.log('Image loading started for:', getImageUrl(remedy.image_url));
+                            }}
+                          />
+                        </View>
+                      )}
+                      
                       <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-600 mb-4 leading-6">
                         {remedy.common_name || 'N/A'}
                       </Text>

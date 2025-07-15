@@ -1,5 +1,5 @@
 import { Databases, ID, Query, Models } from 'react-native-appwrite';
-import { client } from './appwriteConfig';
+import { client, storage } from './appwriteConfig';
 import { useAuthStore } from '../store/authStore';
 
 // Initialize Databases
@@ -8,6 +8,25 @@ const databases = new Databases(client);
 // Constants
 export const REMEDY_DATABASE_ID = '6871206100262eb02793'; // Same database as history
 export const REMEDY_COLLECTION_ID = '687133380006f5c36c8c'; // You'll need to create this collection
+export const REMEDY_STORAGE_BUCKET_ID = '687683e9000f7f64973d'; // You'll need to create this storage bucket
+
+// Helper function to get image URL from file ID
+export const getImageUrl = (fileId: string): string => {
+  try {
+    // For React Native, construct the URL manually using the client config
+    const url = `${client.config.endpoint}/storage/buckets/${REMEDY_STORAGE_BUCKET_ID}/files/${fileId}/view?project=${client.config.project}`;
+    console.log('Generated image URL:', url);
+    console.log('Client config:', {
+      endpoint: client.config.endpoint,
+      project: client.config.project,
+      bucketId: REMEDY_STORAGE_BUCKET_ID
+    });
+    return url;
+  } catch (error) {
+    console.error('Error generating image URL:', error);
+    return '';
+  }
+};
 
 export interface RemedyData {
   title: string;
@@ -19,6 +38,7 @@ export interface RemedyData {
   usage_instructions: string;
   ailments_treated?: string;
   cautions?: string;
+  image?: string; // Image URI for upload
 }
 
 export interface RemedyDocument extends Models.Document {
@@ -34,6 +54,9 @@ export interface RemedyDocument extends Models.Document {
   author_id: string;
   author_name: string;
   created_at: string;
+  // Image fields
+  image_id?: string; // Appwrite file ID
+  image_url?: string; // Appwrite file URL
   // Verification fields
   verified: boolean;
   verified_by_id?: string;
@@ -47,6 +70,31 @@ export const remedyService = {
       const user = useAuthStore.getState().user;
       if (!user) {
         throw new Error('User not authenticated');
+      }
+
+      let imageId: string | undefined;
+      let imageUrl: string | undefined;
+
+      // Upload image if provided
+      if (remedyData.image) {
+        try {
+          const fileResponse = await storage.createFile(
+            REMEDY_STORAGE_BUCKET_ID,
+            ID.unique(),
+            {
+              name: `remedy-${Date.now()}.jpg`,
+              type: 'image/jpeg',
+              size: 1024000, // Default size, will be corrected by Appwrite
+              uri: remedyData.image,
+            }
+          );
+          imageId = fileResponse.$id;
+          // Use just the file ID - we'll construct the URL on the client side when needed
+          imageUrl = fileResponse.$id;
+        } catch (imageError) {
+          console.error('Failed to upload image:', imageError);
+          // Continue without image rather than failing the entire remedy creation
+        }
       }
 
       const response = await databases.createDocument(
@@ -66,6 +114,9 @@ export const remedyService = {
           author_id: user.$id,
           author_name: user.name,
           created_at: new Date().toISOString(),
+          // Image fields
+          image_id: imageId || null,
+          image_url: imageUrl || null,
           // Verification fields - all remedies start as unverified
           verified: false,
           verified_by_id: null,

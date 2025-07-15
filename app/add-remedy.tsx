@@ -8,10 +8,12 @@ import {
   KeyboardAvoidingView, 
   Platform,
   Alert,
-  ActivityIndicator 
+  ActivityIndicator,
+  Image 
 } from 'react-native';
 import { useState } from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
+import * as ImagePicker from 'expo-image-picker';
 import { useRemedyStore } from '../store/remedyStore';
 
 export default function AddRemedyScreen() {
@@ -27,9 +29,29 @@ export default function AddRemedyScreen() {
     cautions: '',
   });
   
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { addRemedy } = useRemedyStore();
   const router = useRouter();
+
+  const pickImage = async () => {
+    if (isSubmitting) return;
+    
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 0.8,
+    });
+
+    if (!result.canceled && result.assets[0]) {
+      setSelectedImage(result.assets[0].uri);
+    }
+  };
+
+  const removeImage = () => {
+    setSelectedImage(null);
+  };
 
   const handleSubmit = async () => {
     // Validate required fields
@@ -60,7 +82,10 @@ export default function AddRemedyScreen() {
 
     setIsSubmitting(true);
     try {
-      await addRemedy(formData);
+      await addRemedy({
+        ...formData,
+        image: selectedImage || undefined,
+      });
       
       Alert.alert(
         'Success', 
@@ -83,8 +108,8 @@ export default function AddRemedyScreen() {
   const handleCancel = () => {
     if (isSubmitting) return;
     
-    // Check if form has data
-    const hasData = Object.values(formData).some(value => value.trim() !== '');
+    // Check if form has data or image
+    const hasData = Object.values(formData).some(value => value.trim() !== '') || selectedImage;
     
     if (hasData) {
       Alert.alert(
@@ -142,6 +167,39 @@ export default function AddRemedyScreen() {
               style={{ fontFamily: 'Poppins-Regular' }}
               editable={!isSubmitting}
             />
+          </View>
+
+          {/* Plant Image */}
+          <View className="mb-6">
+            <Text style={{ fontFamily: 'Poppins-SemiBold' }} className="text-lg text-gray-800 mb-2">Plant Image (Optional)</Text>
+            
+            {selectedImage ? (
+              <View className="relative">
+                <Image
+                  source={{ uri: selectedImage }}
+                  className="w-full h-48 rounded-lg"
+                  style={{ resizeMode: 'cover' }}
+                />
+                <TouchableOpacity
+                  onPress={removeImage}
+                  className="absolute top-2 right-2 bg-red-500 rounded-full p-1"
+                  disabled={isSubmitting}
+                >
+                  <MaterialIcons name="close" size={20} color="white" />
+                </TouchableOpacity>
+              </View>
+            ) : (
+              <TouchableOpacity
+                onPress={pickImage}
+                className="border-2 border-dashed border-gray-300 rounded-lg py-12 items-center justify-center"
+                disabled={isSubmitting}
+              >
+                <MaterialIcons name="add-photo-alternate" size={48} color="#9CA3AF" />
+                <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-500 mt-2">
+                  Tap to add a plant image
+                </Text>
+              </TouchableOpacity>
+            )}
           </View>
 
           {/* Common Name */}
