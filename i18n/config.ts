@@ -168,6 +168,16 @@ const resources = {
           cautions: 'Cautions',
         },
       },
+
+      // Verification
+      verify: 'Verify',
+      unverify: 'Unverify',
+      unverified: 'Unverified',
+      verified_by: 'Verified by',
+      verify_remedy: 'Verify Remedy',
+      unverify_remedy: 'Unverify Remedy',
+      are_you_sure_verify: 'Are you sure you want to verify this remedy?',
+      are_you_sure_unverify: 'Are you sure you want to unverify this remedy?',
       
       // Common
       cancel: 'Cancel',
@@ -375,6 +385,16 @@ const resources = {
           cautions: 'Tahadhari',
         },
       },
+
+      // Verification
+      verify: 'Thibitisha',
+      unverify: 'Ondoa Uthibitisho',
+      unverified: 'Haijathibitishwa',
+      verified_by: 'Imethibitishwa na',
+      verify_remedy: 'Thibitisha Dawa',
+      unverify_remedy: 'Ondoa Uthibitisho wa Dawa',
+      are_you_sure_verify: 'Una uhakika unataka kuthibitisha dawa hii?',
+      are_you_sure_unverify: 'Una uhakika unataka kuondoa uthibitisho wa dawa hii?',
       
       // Common
       cancel: 'Ghairi',

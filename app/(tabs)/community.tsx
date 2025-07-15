@@ -5,18 +5,35 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useRemedyStore } from '../../store/remedyStore';
 import { useAuthStore } from '../../store/authStore';
 import { useTranslation } from 'react-i18next';
+import { UserType } from '../../lib/userProfileConfig';
 
 export default function CommunityScreen() {
   const { t } = useTranslation();
-  const { remedies, isLoading, error, fetchRemedies } = useRemedyStore();
-  const { user } = useAuthStore();
+  const { remedies, isLoading, error, fetchRemedies, verifyRemedy, unverifyRemedy } = useRemedyStore();
+  const { user, userProfile, initialize } = useAuthStore();
   const [refreshing, setRefreshing] = useState(false);
   const [expandedCards, setExpandedCards] = useState<{[key: string]: boolean}>({});
   const router = useRouter();
 
+  // Debug logging
+  useEffect(() => {
+    console.log('Community Screen - User:', user?.$id);
+    console.log('Community Screen - UserProfile:', userProfile);
+    console.log('Community Screen - UserType:', userProfile?.user_type);
+    console.log('Community Screen - Full Name:', userProfile?.full_name);
+  }, [user, userProfile]);
+
   useEffect(() => {
     fetchRemedies();
   }, [fetchRemedies]);
+
+  // Ensure user profile is loaded
+  useEffect(() => {
+    if (user && !userProfile) {
+      console.log('User found but no profile, reinitializing auth...');
+      initialize();
+    }
+  }, [user, userProfile, initialize]);
 
   // Refresh when screen comes into focus (when returning from add remedy screen)
   useFocusEffect(
@@ -44,6 +61,56 @@ export default function CommunityScreen() {
       return;
     }
     router.push('../add-remedy');
+  };
+
+  const handleVerifyRemedy = async (remedyId: string) => {
+    if (!user || !userProfile) return;
+    
+    console.log('Verifying remedy with user profile:', {
+      userId: user.$id,
+      userProfileName: userProfile.full_name,
+      userProfile: userProfile
+    });
+    
+    Alert.alert(
+      t('verify_remedy'),
+      t('are_you_sure_verify'),
+      [
+        {
+          text: t('cancel'),
+          style: 'cancel',
+        },
+        {
+          text: t('verify'),
+          onPress: async () => {
+            const verifierName = userProfile.full_name || userProfile.email || 'Unknown Herbalist';
+            console.log('Using verifier name:', verifierName);
+            await verifyRemedy(remedyId, user.$id, verifierName);
+          },
+        },
+      ]
+    );
+  };
+
+  const handleUnverifyRemedy = async (remedyId: string) => {
+    if (!user || !userProfile) return;
+    
+    Alert.alert(
+      t('unverify_remedy'),
+      t('are_you_sure_unverify'),
+      [
+        {
+          text: t('cancel'),
+          style: 'cancel',
+        },
+        {
+          text: t('unverify'),
+          onPress: async () => {
+            await unverifyRemedy(remedyId);
+          },
+        },
+      ]
+    );
   };
 
   const formatDate = (dateString: string) => {
@@ -132,6 +199,16 @@ export default function CommunityScreen() {
               {remedies.map((remedy: any) => {
                 const isExpanded = expandedCards[remedy.$id] || false;
                 
+                // Debug logging for remedy verification
+                console.log('Remedy verification status:', {
+                  remedyId: remedy.$id,
+                  title: remedy.title,
+                  verified: remedy.verified,
+                  verified_by_name: remedy.verified_by_name,
+                  verified_by_id: remedy.verified_by_id,
+                  verified_at: remedy.verified_at
+                });
+                
                 return (
                   <View key={remedy.$id} className="mb-6 bg-white rounded-xl shadow-lg">
                     {/* Header */}
@@ -152,10 +229,28 @@ export default function CommunityScreen() {
                             </Text>
                           </View>
                         </View>
-                        <View className="bg-green-100 px-3 py-1 rounded-full">
-                          <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-green-800 text-xs">
-                            {remedy.plant_name}
-                          </Text>
+                        <View className="items-end">
+                          <View className="bg-green-100 px-3 py-1 rounded-full mb-2">
+                            <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-green-800 text-xs">
+                              {remedy.plant_name}
+                            </Text>
+                          </View>
+                          {/* Verification Badge */}
+                          {remedy.verified && remedy.verified_by_name ? (
+                            <View className="flex-row items-center bg-green-50 px-2 py-1 rounded-full">
+                              <MaterialIcons name="verified" size={12} color="#008000" />
+                              <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-green-600 text-xs ml-1">
+                                {t('verified_by')} {remedy.verified_by_name}
+                              </Text>
+                            </View>
+                          ) : (
+                            <View className="flex-row items-center bg-orange-50 px-2 py-1 rounded-full">
+                              <MaterialIcons name="warning" size={12} color="#f59e0b" />
+                              <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-orange-600 text-xs ml-1">
+                                {t('unverified')}
+                              </Text>
+                            </View>
+                          )}
                         </View>
                       </View>
                     </View>
@@ -271,6 +366,33 @@ export default function CommunityScreen() {
                           color="#008000" 
                         />
                       </TouchableOpacity>
+
+                      {/* Verification Buttons - Only for Herbalists */}
+                      {userProfile?.user_type === UserType.HERBALIST && (
+                        <View className="flex-row gap-2">
+                          {!remedy.verified ? (
+                            <TouchableOpacity
+                              onPress={() => handleVerifyRemedy(remedy.$id)}
+                              className="flex-1 bg-green-500 flex-row items-center justify-center p-3 rounded-lg"
+                            >
+                              <MaterialIcons name="verified" size={16} color="#fff" />
+                              <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-white ml-2">
+                                {t('verify')}
+                              </Text>
+                            </TouchableOpacity>
+                          ) : (
+                            <TouchableOpacity
+                              onPress={() => handleUnverifyRemedy(remedy.$id)}
+                              className="flex-1 bg-red-500 flex-row items-center justify-center p-3 rounded-lg"
+                            >
+                              <MaterialIcons name="cancel" size={16} color="#fff" />
+                              <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-white ml-2">
+                                {t('unverify')}
+                              </Text>
+                            </TouchableOpacity>
+                          )}
+                        </View>
+                      )}
                     </View>
                   </View>
                 );

@@ -32,6 +32,11 @@ export interface RemedyDocument extends Models.Document {
   author_id: string;
   author_name: string;
   created_at: string;
+  // Verification fields
+  verified: boolean;
+  verified_by_id?: string;
+  verified_by_name?: string;
+  verified_at?: string;
 }
 
 export const remedyService = {
@@ -58,6 +63,11 @@ export const remedyService = {
           author_id: user.$id,
           author_name: user.name,
           created_at: new Date().toISOString(),
+          // Verification fields - all remedies start as unverified
+          verified: false,
+          verified_by_id: null,
+          verified_by_name: null,
+          verified_at: null,
         }
       );
       console.log('Remedy created successfully:', response);
@@ -132,6 +142,108 @@ export const remedyService = {
       console.log('Remedy deleted successfully');
     } catch (error) {
       console.error('Error deleting remedy:', error);
+      throw error;
+    }
+  },
+
+  async verifyRemedy(remedyId: string, verifierId: string, verifierName: string) {
+    try {
+      console.log('Attempting to verify remedy:', { remedyId, verifierId, verifierName });
+      
+      if (!verifierName) {
+        console.warn('Verifier name is null or undefined');
+      }
+      
+      const response = await databases.updateDocument(
+        REMEDY_DATABASE_ID,
+        REMEDY_COLLECTION_ID,
+        remedyId,
+        {
+          verified: true,
+          verified_by_id: verifierId,
+          verified_by_name: verifierName,
+          verified_at: new Date().toISOString(),
+        }
+      );
+      console.log('Remedy verified successfully:', response);
+      return response;
+    } catch (error) {
+      console.error('Error verifying remedy:', error);
+      if (error instanceof Error) {
+        console.error('Error details:', {
+          message: error.message,
+          code: (error as any).code,
+          type: (error as any).type
+        });
+      }
+      throw error;
+    }
+  },
+
+  async unverifyRemedy(remedyId: string) {
+    try {
+      console.log('Attempting to unverify remedy:', { remedyId });
+      
+      const response = await databases.updateDocument(
+        REMEDY_DATABASE_ID,
+        REMEDY_COLLECTION_ID,
+        remedyId,
+        {
+          verified: false,
+          verified_by_id: null,
+          verified_by_name: null,
+          verified_at: null,
+        }
+      );
+      console.log('Remedy unverified successfully:', response);
+      return response;
+    } catch (error) {
+      console.error('Error unverifying remedy:', error);
+      if (error instanceof Error) {
+        console.error('Error details:', {
+          message: error.message,
+          code: (error as any).code,
+          type: (error as any).type
+        });
+      }
+      throw error;
+    }
+  },
+
+  async getVerifiedRemedies(): Promise<RemedyDocument[]> {
+    try {
+      const response = await databases.listDocuments(
+        REMEDY_DATABASE_ID,
+        REMEDY_COLLECTION_ID,
+        [
+          Query.equal('verified', true),
+          Query.orderDesc('verified_at'),
+          Query.limit(100)
+        ]
+      );
+      console.log('Verified remedies fetched successfully:', response);
+      return response.documents as RemedyDocument[];
+    } catch (error) {
+      console.error('Error fetching verified remedies:', error);
+      throw error;
+    }
+  },
+
+  async getUnverifiedRemedies(): Promise<RemedyDocument[]> {
+    try {
+      const response = await databases.listDocuments(
+        REMEDY_DATABASE_ID,
+        REMEDY_COLLECTION_ID,
+        [
+          Query.equal('verified', false),
+          Query.orderDesc('created_at'),
+          Query.limit(100)
+        ]
+      );
+      console.log('Unverified remedies fetched successfully:', response);
+      return response.documents as RemedyDocument[];
+    } catch (error) {
+      console.error('Error fetching unverified remedies:', error);
       throw error;
     }
   }
