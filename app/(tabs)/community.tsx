@@ -123,6 +123,7 @@ export default function CommunityScreen() {
   };
 
   const getInitials = (name: string) => {
+    if (!name) return 'U'; // Return 'U' for Unknown if name is null or undefined
     return name
       .split(' ')
       .map(word => word[0])
@@ -203,6 +204,13 @@ export default function CommunityScreen() {
                 console.log('Remedy verification status:', {
                   remedyId: remedy.$id,
                   title: remedy.title,
+                  common_name: remedy.common_name,
+                  scientific_name: remedy.scientific_name,
+                  local_name: remedy.local_name,
+                  preparation_method: remedy.preparation_method,
+                  usage_instructions: remedy.usage_instructions,
+                  ailments_treated: remedy.ailments_treated,
+                  cautions: remedy.cautions,
                   verified: remedy.verified,
                   verified_by_name: remedy.verified_by_name,
                   verified_by_id: remedy.verified_by_id,
@@ -217,12 +225,12 @@ export default function CommunityScreen() {
                         <View className="flex-row items-center flex-1">
                           <View className="w-10 h-10 bg-primary rounded-full items-center justify-center mr-3">
                             <Text style={{ fontFamily: 'Poppins-Bold' }} className="text-white text-sm">
-                              {getInitials(remedy.author_name)}
+                              {getInitials(remedy.author_name || 'Unknown')}
                             </Text>
                           </View>
                           <View className="flex-1">
                             <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-gray-800">
-                              {remedy.author_name}
+                              {remedy.author_name || 'Unknown Author'}
                             </Text>
                             <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-500 text-sm">
                               {formatDate(remedy.created_at)}
@@ -232,7 +240,7 @@ export default function CommunityScreen() {
                         <View className="items-end">
                           <View className="bg-green-100 px-3 py-1 rounded-full mb-2">
                             <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-green-800 text-xs">
-                              {remedy.plant_name}
+                              {remedy.plant_name || 'Unknown Plant'}
                             </Text>
                           </View>
                           {/* Verification Badge */}
@@ -258,23 +266,23 @@ export default function CommunityScreen() {
                     {/* Content */}
                     <View className="p-4">
                       <Text style={{ fontFamily: 'Poppins-Bold' }} className="text-lg text-gray-800 mb-2">
-                        {remedy.title}
+                        {remedy.title || 'Untitled Remedy'}
                       </Text>
                       <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-600 mb-4 leading-6">
-                        {remedy.description}
+                        {remedy.common_name || 'N/A'}
                       </Text>
 
-                      {/* Collapsed view - only show ingredients */}
+                      {/* Collapsed view - only show scientific name */}
                       {!isExpanded && (
                         <View className="mb-4">
                           <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-gray-800 mb-2">
-                            {t('communityScreen.sections.ingredients')}:
+                            {t('communityScreen.sections.scientificName')}:
                           </Text>
                           <View className="bg-gray-50 rounded-lg p-3">
                             <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-700" numberOfLines={2}>
-                              {remedy.ingredients}
+                              {remedy.scientific_name || 'N/A'}
                             </Text>
-                            {remedy.ingredients.length > 100 && (
+                            {remedy.scientific_name && remedy.scientific_name.length > 50 && (
                               <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-500 text-xs mt-1">
                                 {t('communityScreen.tapViewMore')}
                               </Text>
@@ -286,14 +294,26 @@ export default function CommunityScreen() {
                       {/* Expanded view - show all details */}
                       {isExpanded && (
                         <>
-                          {/* Ingredients */}
+                          {/* Scientific Name */}
                           <View className="mb-4">
                             <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-gray-800 mb-2">
-                              {t('communityScreen.sections.ingredients')}:
+                              {t('communityScreen.sections.scientificName')}:
                             </Text>
                             <View className="bg-gray-50 rounded-lg p-3">
                               <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-700">
-                                {remedy.ingredients}
+                                {remedy.scientific_name || 'N/A'}
+                              </Text>
+                            </View>
+                          </View>
+
+                          {/* Local Name */}
+                          <View className="mb-4">
+                            <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-gray-800 mb-2">
+                              {t('communityScreen.sections.localName')}:
+                            </Text>
+                            <View className="bg-gray-50 rounded-lg p-3">
+                              <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-700">
+                                {remedy.local_name || 'N/A'}
                               </Text>
                             </View>
                           </View>
@@ -305,7 +325,7 @@ export default function CommunityScreen() {
                             </Text>
                             <View className="bg-gray-50 rounded-lg p-3">
                               <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-700">
-                                {remedy.preparation_method}
+                                {remedy.preparation_method || 'N/A'}
                               </Text>
                             </View>
                           </View>
@@ -317,20 +337,20 @@ export default function CommunityScreen() {
                             </Text>
                             <View className="bg-gray-50 rounded-lg p-3">
                               <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-700">
-                                {remedy.usage_instructions}
+                                {remedy.usage_instructions || 'N/A'}
                               </Text>
                             </View>
                           </View>
 
-                          {/* Benefits */}
-                          {remedy.benefits && (
+                          {/* Ailments Treated */}
+                          {remedy.ailments_treated && (
                             <View className="mb-4">
                               <Text style={{ fontFamily: 'Poppins-Medium' }} className="text-gray-800 mb-2">
-                                {t('communityScreen.sections.benefits')}:
+                                {t('communityScreen.sections.ailmentsTreated')}:
                               </Text>
                               <View className="bg-blue-50 rounded-lg p-3">
                                 <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-blue-700">
-                                  {remedy.benefits}
+                                  {remedy.ailments_treated}
                                 </Text>
                               </View>
                             </View>

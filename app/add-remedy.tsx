@@ -17,12 +17,13 @@ import { useRemedyStore } from '../store/remedyStore';
 export default function AddRemedyScreen() {
   const [formData, setFormData] = useState({
     title: '',
-    description: '',
+    common_name: '',
     plant_name: '',
-    ingredients: '',
+    scientific_name: '',
+    local_name: '',
     preparation_method: '',
     usage_instructions: '',
-    benefits: '',
+    ailments_treated: '',
     cautions: '',
   });
   
@@ -36,16 +37,16 @@ export default function AddRemedyScreen() {
       Alert.alert('Validation Error', 'Please enter a title for the remedy');
       return;
     }
-    if (!formData.description.trim()) {
-      Alert.alert('Validation Error', 'Please enter a description');
+    if (!formData.common_name.trim()) {
+      Alert.alert('Validation Error', 'Please enter a common name');
       return;
     }
     if (!formData.plant_name.trim()) {
       Alert.alert('Validation Error', 'Please enter the plant name');
       return;
     }
-    if (!formData.ingredients.trim()) {
-      Alert.alert('Validation Error', 'Please enter the ingredients');
+    if (!formData.scientific_name.trim()) {
+      Alert.alert('Validation Error', 'Please enter the scientific name');
       return;
     }
     if (!formData.preparation_method.trim()) {
@@ -136,7 +137,20 @@ export default function AddRemedyScreen() {
             <TextInput
               value={formData.title}
               onChangeText={(text) => setFormData({ ...formData, title: text })}
-              placeholder="e.g., Ginger Tea for Cold Relief"
+              placeholder="e.g., Cold Relief Tea"
+              className="border border-gray-300 rounded-lg px-4 py-4 text-gray-800 text-base"
+              style={{ fontFamily: 'Poppins-Regular' }}
+              editable={!isSubmitting}
+            />
+          </View>
+
+          {/* Common Name */}
+          <View className="mb-6">
+            <Text style={{ fontFamily: 'Poppins-SemiBold' }} className="text-lg text-gray-800 mb-2">Common Name *</Text>
+            <TextInput
+              value={formData.common_name}
+              onChangeText={(text) => setFormData({ ...formData, common_name: text })}
+              placeholder="e.g., Ginger"
               className="border border-gray-300 rounded-lg px-4 py-4 text-gray-800 text-base"
               style={{ fontFamily: 'Poppins-Regular' }}
               editable={!isSubmitting}
@@ -149,36 +163,46 @@ export default function AddRemedyScreen() {
             <TextInput
               value={formData.plant_name}
               onChangeText={(text) => setFormData({ ...formData, plant_name: text })}
-              placeholder="e.g., Ginger"
+              placeholder="e.g., Ginger plant"
               className="border border-gray-300 rounded-lg px-4 py-4 text-gray-800 text-base"
               style={{ fontFamily: 'Poppins-Regular' }}
               editable={!isSubmitting}
             />
           </View>
 
-          {/* Description */}
+          {/* Scientific Name */}
           <View className="mb-6">
-            <Text style={{ fontFamily: 'Poppins-SemiBold' }} className="text-lg text-gray-800 mb-2">Description *</Text>
+            <Text style={{ fontFamily: 'Poppins-SemiBold' }} className="text-lg text-gray-800 mb-2">Scientific Name *</Text>
             <TextInput
-              value={formData.description}
-              onChangeText={(text) => setFormData({ ...formData, description: text })}
-              placeholder="Brief description of what this remedy treats"
+              value={formData.scientific_name}
+              onChangeText={(text) => setFormData({ ...formData, scientific_name: text })}
+              placeholder="e.g., Zingiber officinale"
               className="border border-gray-300 rounded-lg px-4 py-4 text-gray-800 text-base"
               style={{ fontFamily: 'Poppins-Regular' }}
-              multiline
-              numberOfLines={4}
-              textAlignVertical="top"
               editable={!isSubmitting}
             />
           </View>
 
-          {/* Ingredients */}
+          {/* Local Name */}
           <View className="mb-6">
-            <Text style={{ fontFamily: 'Poppins-SemiBold' }} className="text-lg text-gray-800 mb-2">Ingredients *</Text>
+            <Text style={{ fontFamily: 'Poppins-SemiBold' }} className="text-lg text-gray-800 mb-2">Local Name (Optional)</Text>
             <TextInput
-              value={formData.ingredients}
-              onChangeText={(text) => setFormData({ ...formData, ingredients: text })}
-              placeholder="List all ingredients needed"
+              value={formData.local_name}
+              onChangeText={(text) => setFormData({ ...formData, local_name: text })}
+              placeholder="e.g., Tangawizi"
+              className="border border-gray-300 rounded-lg px-4 py-4 text-gray-800 text-base"
+              style={{ fontFamily: 'Poppins-Regular' }}
+              editable={!isSubmitting}
+            />
+          </View>
+
+          {/* Ailments Treated */}
+          <View className="mb-6">
+            <Text style={{ fontFamily: 'Poppins-SemiBold' }} className="text-lg text-gray-800 mb-2">Ailments Treated (Optional)</Text>
+            <TextInput
+              value={formData.ailments_treated}
+              onChangeText={(text) => setFormData({ ...formData, ailments_treated: text })}
+              placeholder="What ailments does this remedy treat?"
               className="border border-gray-300 rounded-lg px-4 py-4 text-gray-800 text-base"
               style={{ fontFamily: 'Poppins-Regular' }}
               multiline
@@ -211,22 +235,6 @@ export default function AddRemedyScreen() {
               value={formData.usage_instructions}
               onChangeText={(text) => setFormData({ ...formData, usage_instructions: text })}
               placeholder="How to use this remedy"
-              className="border border-gray-300 rounded-lg px-4 py-4 text-gray-800 text-base"
-              style={{ fontFamily: 'Poppins-Regular' }}
-              multiline
-              numberOfLines={4}
-              textAlignVertical="top"
-              editable={!isSubmitting}
-            />
-          </View>
-
-          {/* Benefits */}
-          <View className="mb-6">
-            <Text style={{ fontFamily: 'Poppins-SemiBold' }} className="text-lg text-gray-800 mb-2">Benefits (Optional)</Text>
-            <TextInput
-              value={formData.benefits}
-              onChangeText={(text) => setFormData({ ...formData, benefits: text })}
-              placeholder="Additional benefits of this remedy"
               className="border border-gray-300 rounded-lg px-4 py-4 text-gray-800 text-base"
               style={{ fontFamily: 'Poppins-Regular' }}
               multiline

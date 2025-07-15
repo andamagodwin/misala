@@ -11,23 +11,25 @@ export const REMEDY_COLLECTION_ID = '687133380006f5c36c8c'; // You'll need to cr
 
 export interface RemedyData {
   title: string;
-  description: string;
+  common_name: string;
   plant_name: string;
-  ingredients: string;
+  scientific_name: string;
+  local_name: string;
   preparation_method: string;
   usage_instructions: string;
-  benefits?: string;
+  ailments_treated?: string;
   cautions?: string;
 }
 
 export interface RemedyDocument extends Models.Document {
   title: string;
-  description: string;
+  common_name: string;
   plant_name: string;
-  ingredients: string;
+  scientific_name: string;
+  local_name: string;
   preparation_method: string;
   usage_instructions: string;
-  benefits?: string;
+  ailments_treated?: string;
   cautions?: string;
   author_id: string;
   author_name: string;
@@ -53,12 +55,13 @@ export const remedyService = {
         ID.unique(),
         {
           title: remedyData.title,
-          description: remedyData.description,
+          common_name: remedyData.common_name,
           plant_name: remedyData.plant_name,
-          ingredients: remedyData.ingredients,
+          scientific_name: remedyData.scientific_name,
+          local_name: remedyData.local_name,
           preparation_method: remedyData.preparation_method,
           usage_instructions: remedyData.usage_instructions,
-          benefits: remedyData.benefits || '',
+          ailments_treated: remedyData.ailments_treated || '',
           cautions: remedyData.cautions || '',
           author_id: user.$id,
           author_name: user.name,

@@ -4,12 +4,13 @@ import { remedyService, RemedyDocument } from '../lib/remedyConfig';
 export interface Remedy {
   $id: string;
   title: string;
-  description: string;
+  common_name: string;
   plant_name: string;
-  ingredients: string;
+  scientific_name: string;
+  local_name: string;
   preparation_method: string;
   usage_instructions: string;
-  benefits?: string;
+  ailments_treated?: string;
   cautions?: string;
   author_id: string;
   verified?: boolean;
