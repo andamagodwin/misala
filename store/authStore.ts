@@ -1,13 +1,16 @@
 import { create } from 'zustand';
 import { Models } from 'react-native-appwrite';
 import { account } from '../lib/appwriteConfig';
+import { UserProfileDocument, userProfileService } from '../lib/userProfileConfig';
 
 interface AuthState {
   user: Models.User<Models.Preferences> | null;
+  userProfile: UserProfileDocument | null;
   isAuthenticated: boolean;
   isLoading: boolean;
   isInitialized: boolean;
-  setAuth: (user: Models.User<Models.Preferences>) => void;
+  setAuth: (user: Models.User<Models.Preferences>, profile?: UserProfileDocument) => void;
+  setUserProfile: (profile: UserProfileDocument | null) => void;
   clearAuth: () => void;
   initialize: () => Promise<void>;
   updateUserTermsAcceptance: (accepted: boolean) => Promise<void>;
@@ -16,23 +19,30 @@ interface AuthState {
 
 export const useAuthStore = create<AuthState>((set, get) => ({
   user: null,
+  userProfile: null,
   isAuthenticated: false,
   isLoading: false,
   isInitialized: false,
 
-  setAuth: (user: Models.User<Models.Preferences>) => {
+  setAuth: (user: Models.User<Models.Preferences>, profile?: UserProfileDocument) => {
     console.log('Setting auth user:', user);
     set({ 
       user, 
+      userProfile: profile || null,
       isAuthenticated: true, 
       isLoading: false 
     });
+  },
+
+  setUserProfile: (profile: UserProfileDocument | null) => {
+    set({ userProfile: profile });
   },
 
   clearAuth: () => {
     console.log('Clearing auth');
     set({ 
       user: null, 
+      userProfile: null,
       isAuthenticated: false, 
       isLoading: false 
     });
@@ -59,12 +69,28 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       
       if (user) {
         console.log('User authenticated:', user.$id);
-        set({ 
-          user, 
-          isAuthenticated: true, 
-          isLoading: false, 
-          isInitialized: true 
-        });
+        
+        // Try to load user profile
+        try {
+          const profile = await userProfileService.getUserProfile(user.$id);
+          set({ 
+            user, 
+            userProfile: profile,
+            isAuthenticated: true, 
+            isLoading: false, 
+            isInitialized: true 
+          });
+        } catch (profileError) {
+          console.error('Error loading user profile:', profileError);
+          // User exists but no profile, still mark as authenticated
+          set({ 
+            user, 
+            userProfile: null,
+            isAuthenticated: true, 
+            isLoading: false, 
+            isInitialized: true 
+          });
+        }
       } else {
         console.log('No user found, redirecting to auth');
         set({ 

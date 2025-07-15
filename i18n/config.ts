@@ -102,6 +102,40 @@ const resources = {
       sign_up_to_get_started: 'Sign up to get started',
       full_name: 'Full Name',
       
+      // User Types
+      user_type: 'User Type',
+      normal_user: 'Normal User',
+      herbalist: 'Herbalist',
+      phone: 'Phone Number',
+      location: 'Location',
+      bio: 'Bio',
+      min_50_chars: 'minimum 50 characters',
+      experience_years: 'Years of Experience',
+      specializations_placeholder: 'Specializations (comma-separated)',
+      herbalist_fields_required: 'Phone, location, and bio are required for herbalists',
+      bio_min_length: 'Bio must be at least 50 characters',
+      herbalist_verification_note: 'Herbalist Account Verification',
+      herbalist_verification_description: 'Your herbalist account will be reviewed by our team. You can use the app normally while verification is pending.',
+      
+      // User Profile
+      verified: 'Verified',
+      years_experience: 'years of experience',
+      specializations: 'Specializations',
+      joined: 'Joined',
+      
+      // Herbalist Directory
+      herbalist_directory: 'Herbalist Directory',
+      search_herbalists: 'Search herbalists...',
+      all_herbalists: 'All Herbalists',
+      verified_only: 'Verified Only',
+      filter_by_specialization: 'Filter by Specialization',
+      all: 'All',
+      loading_herbalists: 'Loading herbalists...',
+      no_herbalists_found: 'No herbalists found',
+      try_different_search: 'Try a different search term or filter',
+      contact_herbalist: 'Contact Herbalist',
+      no_phone_available: 'No phone number available',
+      
       // Blog/Remedy Forms
       shareRemedy: 'Share a Remedy',
       title: 'Title',
@@ -274,6 +308,40 @@ const resources = {
       hello_register: 'Hujambo! Jiandikishe ili kuanza',
       sign_up_to_get_started: 'Jiandikishe ili kuanza',
       full_name: 'Jina Kamili',
+
+      // User Types
+      user_type: 'Aina ya Mtumiaji',
+      normal_user: 'Mtumiaji wa Kawaida',
+      herbalist: 'Mtabibu wa Mimea',
+      phone: 'Nambari ya Simu',
+      location: 'Mahali',
+      bio: 'Wasifu',
+      min_50_chars: 'angalau herufi 50',
+      experience_years: 'Miaka ya Uzoefu',
+      specializations_placeholder: 'Maalum (tenganishwa na mkato)',
+      herbalist_fields_required: 'Simu, mahali, na wasifu vinahitajika kwa watabibu wa mimea',
+      bio_min_length: 'Wasifu lazima uwe na angalau herufi 50',
+      herbalist_verification_note: 'Uthibitishaji wa Akaunti ya Mtabibu wa Mimea',
+      herbalist_verification_description: 'Akaunti yako ya mtabibu wa mimea itapitiwa na timu yetu. Unaweza kutumia programu kwa kawaida wakati uthibitishaji unasubiri.',
+
+      // User Profile
+      verified: 'Imethibitishwa',
+      years_experience: 'miaka ya uzoefu',
+      specializations: 'Maalum',
+      joined: 'Alijiunga',
+
+      // Herbalist Directory
+      herbalist_directory: 'Orodha ya Watabibu wa Mimea',
+      search_herbalists: 'Tafuta watabibu wa mimea...',
+      all_herbalists: 'Watabibu Wote wa Mimea',
+      verified_only: 'Waliothibitishwa Tu',
+      filter_by_specialization: 'Chuja kwa Utaalamu',
+      all: 'Wote',
+      loading_herbalists: 'Inapakia watabibu wa mimea...',
+      no_herbalists_found: 'Hakuna watabibu wa mimea waliopatikana',
+      try_different_search: 'Jaribu neno lingine la utaftaji au kichujio',
+      contact_herbalist: 'Wasiliana na Mtabibu wa Mimea',
+      no_phone_available: 'Hakuna nambari ya simu inayopatikana',
       
       // Blog/Remedy Forms
       shareRemedy: 'Shiriki Dawa',
