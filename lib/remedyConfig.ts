@@ -6,9 +6,11 @@ import { useAuthStore } from '../store/authStore';
 const databases = new Databases(client);
 
 // Constants
-export const REMEDY_DATABASE_ID = '6871206100262eb02793'; // Same database as history
-export const REMEDY_COLLECTION_ID = '687133380006f5c36c8c'; // You'll need to create this collection
-export const REMEDY_STORAGE_BUCKET_ID = '687683e9000f7f64973d'; // You'll need to create this storage bucket
+export const REMEDY_DATABASE_ID = '6876693e003df851da66'; // Same database as history
+export const REMEDY_COLLECTION_ID = '687690d60038ac449327'; // You'll need to create this collection
+// export const REMEDY_COLLECTION_ID = '687133380006f5c36c8c'; // You'll need to create this collection
+export const REMEDY_STORAGE_BUCKET_ID = '6876c759001803fb9980'; // You'll need to create this storage bucket
+// export const REMEDY_STORAGE_BUCKET_ID = '687683e9000f7f64973d'; // You'll need to create this storage bucket
 
 // Helper function to get image URL from file ID
 export const getImageUrl = (fileId: string): string => {

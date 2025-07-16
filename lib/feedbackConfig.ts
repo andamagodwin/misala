@@ -5,8 +5,9 @@ import { client } from './appwriteConfig';
 const databases = new Databases(client);
 
 // Constants
-export const FEEDBACK_DATABASE_ID = '6871206100262eb02793'; // Use your existing database ID
-export const PREDICTION_FEEDBACK_COLLECTION_ID = '6872abb4003097d4cf84'; // Will need to create this collection
+export const FEEDBACK_DATABASE_ID = '6876693e003df851da66'; // Use your existing database ID
+export const PREDICTION_FEEDBACK_COLLECTION_ID = '68768d3100080d454af5'; // Will need to create this collection
+// export const PREDICTION_FEEDBACK_COLLECTION_ID = '6872abb4003097d4cf84'; // Will need to create this collection
 
 // Prediction Feedback Document Interface
 export interface PredictionFeedbackDocument extends Models.Document {

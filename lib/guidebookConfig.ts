@@ -5,9 +5,9 @@ import { client, storage } from './appwriteConfig';
 const databases = new Databases(client);
 
 // Constants
-export const GUIDEBOOK_DATABASE_ID = '6871206100262eb02793'; // Use the same database as blogs
-export const GUIDEBOOK_COLLECTION_ID = '6874901a000373be1fb7'; // You'll need to create this collection
-export const GUIDEBOOK_STORAGE_BUCKET_ID = '68748f42002ef688a621'; // You'll need to create this bucket
+export const GUIDEBOOK_DATABASE_ID = '6876693e003df851da66'; // Use the same database as blogs
+export const GUIDEBOOK_COLLECTION_ID = '687685be00209a28f390'; // You'll need to create this collection
+export const GUIDEBOOK_STORAGE_BUCKET_ID = '6876c61a003866bcbb27'; // You'll need to create this bucket
 
 // Guidebook Document Interface
 export interface GuidebookDocument extends Models.Document {

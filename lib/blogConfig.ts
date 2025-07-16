@@ -5,10 +5,14 @@ import { client } from './appwriteConfig';
 const databases = new Databases(client);
 
 // Constant
-export const BLOG_DATABASE_ID = '6871206100262eb02793'; // Use your actual database ID
-export const BLOG_COLLECTION_ID = '68720545003c7f81447c';
-export const BLOG_LIKES_COLLECTION_ID = '68720a74003763b542e9';
-export const BLOG_COMMENTS_COLLECTION_ID = '68720b9000250e86ca74';
+export const BLOG_DATABASE_ID = '6876693e003df851da66'; // Use your actual database ID
+// export const BLOG_DATABASE_ID = '6871206100262eb02793'; // Use your actual database ID
+export const BLOG_COLLECTION_ID = '687696d80015f027a205';
+// export const BLOG_COLLECTION_ID = '68720545003c7f81447c';
+export const BLOG_LIKES_COLLECTION_ID = '68769502000f489165ef';
+// export const BLOG_LIKES_COLLECTION_ID = '68720a74003763b542e9';
+export const BLOG_COMMENTS_COLLECTION_ID = '68766a00002878b51953';
+// export const BLOG_COMMENTS_COLLECTION_ID = '68720b9000250e86ca74';
 
 // Blog Document Interface
 export interface BlogDocument extends Models.Document {

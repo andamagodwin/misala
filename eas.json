@@ -13,7 +13,7 @@
       "android": {
         "buildType": "apk",
         "env": {
-          "EXPO_PUBLIC_APPWRITE_PROJECT_ID": "6870a374001bb073df8c",
+          "EXPO_PUBLIC_APPWRITE_PROJECT_ID": "687667cd00185d00e40c",
           "EXPO_PUBLIC_APPWRITE_ENDPOINT": "https://fra.cloud.appwrite.io/v1",
           "EXPO_PUBLIC_APPWRITE_BUNDLE_ID": "com.andama.misala"
         }

@@ -5,8 +5,10 @@ import { client } from './appwriteConfig';
 const databases = new Databases(client);
 
 // Constants - Update these with your actual IDs after creating the collection
-export const PLANT_INFO_DATABASE_ID = '6871206100262eb02793'; // Use your existing database ID
-export const PLANT_INFO_COLLECTION_ID = '68723943003476ae7141'; // Your actual plant_info collection ID
+export const PLANT_INFO_DATABASE_ID = '6876693e003df851da66'; // Use your existing database ID
+// export const PLANT_INFO_DATABASE_ID = '6871206100262eb02793'; // Use your existing database ID
+export const PLANT_INFO_COLLECTION_ID = '6876901e0028b611c7d0'; // Your actual plant_info collection ID
+// export const PLANT_INFO_COLLECTION_ID = '68723943003476ae7141'; // Your actual plant_info collection ID
 
 // Plant Info Document Interface
 export interface PlantInfoDocument extends Models.Document {

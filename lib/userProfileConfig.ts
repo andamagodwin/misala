@@ -5,8 +5,9 @@ import { client } from './appwriteConfig';
 const databases = new Databases(client);
 
 // Constants
-export const USER_DATABASE_ID = '6871206100262eb02793'; // Same database as history
-export const USER_PROFILES_COLLECTION_ID = '6875f8eb0007b91a211b'; // You'll need to create this collection
+export const USER_DATABASE_ID = '6876693e003df851da66'; // Same database as history
+export const USER_PROFILES_COLLECTION_ID = '68767cc6002deb10a0dd'; // You'll need to create this collection
+// export const USER_PROFILES_COLLECTION_ID = '6875f8eb0007b91a211b'; // You'll need to create this collection
 
 export enum UserType {
   NORMAL = 'normal',

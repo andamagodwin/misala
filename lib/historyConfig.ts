@@ -5,8 +5,10 @@ import { client } from './appwriteConfig';
 const databases = new Databases(client);
 
 // Constants
-export const HISTORY_DATABASE_ID = '6871206100262eb02793';
-export const HISTORY_COLLECTION_ID = '68712080003672c53da5';
+export const HISTORY_DATABASE_ID = '6876693e003df851da66';
+// export const HISTORY_DATABASE_ID = '6871206100262eb02793';
+export const HISTORY_COLLECTION_ID = '68769967002fe5545586';
+// export const HISTORY_COLLECTION_ID = '68712080003672c53da5';
 
 export interface PlantHistory {
   user_id: string;
