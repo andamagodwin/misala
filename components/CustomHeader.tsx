@@ -10,9 +10,9 @@ export function CustomHeader() {
     router.push('/chatbot' as any);
   };
 
-  const handleHerbalistPress = () => {
-    router.push('/herbalists' as any);
-  };
+  // const handleHerbalistPress = () => {
+  //   router.push('/herbalists' as any);
+  // };
 
   return (
     <View className="flex-row items-center space-x-4 pr-4">
@@ -20,12 +20,12 @@ export function CustomHeader() {
       <LanguageSwitcher variant="header" />
 
       {/* Herbalist Directory Icon */}
-      <TouchableOpacity
+      {/* <TouchableOpacity
         onPress={handleHerbalistPress}
         className="p-2"
       >
         <Ionicons name="medical" size={24} color="white" />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       {/* AI Chatbot Icon */}
       <TouchableOpacity

@@ -151,7 +151,7 @@ const resources = {
       
       // Community Screen
       communityScreen: {
-        title: 'Plant Remedies',
+        title: 'Medicinal Plant Remedies',
         subtitle: 'remedies shared by the community',
         loading: 'Loading remedies...',
         noRemedies: 'No remedies shared yet',
