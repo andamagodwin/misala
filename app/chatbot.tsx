@@ -144,10 +144,10 @@ export default function ChatbotScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <StatusBar style="light" />
+      <StatusBar backgroundColor='#008000' style="light" />
       
       {/* Custom Header */}
-      <View className="bg-primary px-4 py-3 flex-row items-center justify-between">
+      <View className="bg-primary px-4 py-3 pt-8 flex-row items-center justify-between">
         <View className="flex-row items-center">
           <TouchableOpacity
             onPress={handleGoBack}
@@ -159,7 +159,7 @@ export default function ChatbotScreen() {
           <View className="flex-row items-center">
             <MaterialIcons name="smart-toy" size={28} color="white" />
             <Text className="text-white text-xl ml-2" style={{ fontFamily: 'Poppins-Bold' }}>
-              Plant AI Assistant
+              Misala Plant AI Assistant
             </Text>
           </View>
         </View>
